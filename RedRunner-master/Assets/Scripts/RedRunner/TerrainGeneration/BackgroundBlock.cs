@@ -27,14 +27,14 @@ namespace RedRunner.TerrainGeneration
 			}
 		}
 
-		public override float Width {
+		/*public override float Width {
 			get {
 				return base.Width;
 			}
 			set {
 				m_Width = value;
 			}
-		}
+		}*/
 
 		protected virtual void Start ()
 		{

@@ -39,7 +39,15 @@ namespace RedRunner.TerrainGeneration
 		protected float m_BackgroundGenerateRange = 200f;
 		[SerializeField]
 		protected Character m_Character;
-		protected Block m_LastBlock;
+        // Params for spawning blocks with different separations and heights
+        public float m_MinExtraWidth = 1f;
+        public float m_MaxExtraWidth = 9f;
+        public float m_MinExtraHeight = -4f;
+        public float m_MaxExtraHeight = 4f;
+
+        public float m_AbsMinHeight = -6f;
+        public float m_AbsMaxHeight = 76f;
+        protected Block m_LastBlock;
 		protected BackgroundBlock m_LastBackgroundBlock;
 		protected float m_RemoveTime = 0f;
 		protected bool m_Reset = false;
@@ -285,6 +293,37 @@ namespace RedRunner.TerrainGeneration
 			}
 			blockPrefab.PreGenerate ( this );
 			Block block = Instantiate<Block> ( blockPrefab, position, Quaternion.identity );
+            
+            // TODO: randomize block size and height
+            float extraWidth = Random.Range(m_MinExtraWidth, m_MaxExtraWidth);
+            float extraHeight = Random.Range(m_MinExtraHeight, m_MaxExtraHeight);
+            /*if (extraHeight < 1f && extraHeight > -1f)
+            {
+                extraHeight = 1f;
+            }*/
+            
+            // make sure jump is possible
+            float yCheck = -0.175f * (extraWidth * extraWidth) + 1.75f * extraWidth + 0.14f;
+            if (extraHeight > yCheck)
+            {
+                Debug.Log("adjusting impossible jump");
+                extraHeight = yCheck - 0.5f;
+            }
+
+            // change height of the new block
+            float previousHeight = 0f;
+            if (m_LastBlock != null)
+            {
+                previousHeight = m_LastBlock.transform.position.y;
+            }
+            block.transform.position = new Vector3(block.transform.position.x, Mathf.Clamp(previousHeight + extraHeight, m_AbsMinHeight, m_AbsMaxHeight), 0f);
+            
+            //Debug.Log("new block");
+            //Debug.Log("extraWidth = " + extraWidth + " extraHeight = " + extraHeight + "yCheck = " + yCheck);
+            float blockWidth = block.Width;
+            //Debug.Log("width of original" + block.name + " = " + blockWidth);
+            
+            block.Width = blockWidth + extraWidth;
 			m_PreviousX = m_CurrentX;
 			m_CurrentX += block.Width;
 			m_Blocks.Add ( position, block );

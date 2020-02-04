@@ -275,13 +275,33 @@ namespace RedRunner.Characters
 			GameManager.OnReset += GameManager_OnReset;
 		}
 
+        int trajectoryCount = 5;
+        bool once = false;
+
 		void Update ()
 		{
-            // Debugging trajectory
             if (!m_GroundCheck.IsGrounded)
             {
-                Debug.Log(Time.time);
-             }
+                if (!once)
+                {
+                    Debug.Log(m_Speed.magnitude);
+                    once = true;
+                }
+                if (trajectoryCount > 0)
+                {
+                    trajectoryCount--;
+                }
+                else
+                {
+                    Debug.Log(transform.position.x + ", " + transform.position.y);
+                    trajectoryCount = 5;
+                }
+            }
+
+            if (m_GroundCheck.IsGrounded)
+            {
+                once = false;
+            }
 
 			if ( !GameManager.Singleton.gameStarted || !GameManager.Singleton.gameRunning )
 			{
