@@ -277,6 +277,12 @@ namespace RedRunner.Characters
 
 		void Update ()
 		{
+            // Debugging trajectory
+            if (!m_GroundCheck.IsGrounded)
+            {
+                Debug.Log(Time.time);
+             }
+
 			if ( !GameManager.Singleton.gameStarted || !GameManager.Singleton.gameRunning )
 			{
 				return;
