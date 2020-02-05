@@ -277,15 +277,20 @@ namespace RedRunner.Characters
 
         int trajectoryCount = 5;
         bool once = false;
+        float startPos = 0;
+        bool started = false;
 
-		void Update ()
+
+        void Update ()
 		{
             if (!m_GroundCheck.IsGrounded)
             {
                 if (!once)
                 {
-                    Debug.Log(m_Speed.magnitude);
+                    Debug.Log("leadup dist: " + (transform.position.x - startPos));
+                    Debug.Log(m_Speed.x);
                     once = true;
+                    started = false;
                 }
                 if (trajectoryCount > 0)
                 {
@@ -301,6 +306,13 @@ namespace RedRunner.Characters
             if (m_GroundCheck.IsGrounded)
             {
                 once = false;
+            }
+
+
+            if (Input.GetKeyDown(KeyCode.D) && !started)
+            {
+                startPos = transform.position.x;
+                started = true;
             }
 
 			if ( !GameManager.Singleton.gameStarted || !GameManager.Singleton.gameRunning )
