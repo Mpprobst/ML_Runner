@@ -64,7 +64,11 @@ namespace RedRunner.Characters
 
 		public abstract AudioSource Audio { get; }
 
-		public abstract void Move ( float horizontalAxis );
+        public abstract float ContinuousDistance { get; }
+
+        public abstract float StartingPosition { get; }
+
+        public abstract void Move ( float horizontalAxis );
 
 		public abstract void Jump ();
 
@@ -76,6 +80,7 @@ namespace RedRunner.Characters
 
 		public abstract void Reset ();
 
-	}
+
+    }
 
 }

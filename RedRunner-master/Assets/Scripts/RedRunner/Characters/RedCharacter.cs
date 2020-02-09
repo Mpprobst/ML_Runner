@@ -30,8 +30,11 @@ namespace RedRunner.Characters
 		protected string[] m_Actions = new string[0];
 		[SerializeField]
 		protected int m_CurrentActionIndex = 0;
+        public float m_ContinuousDistance;
+        public float m_startingPosition;
 
-		[Header ( "Character Reference" )]
+
+        [Header ( "Character Reference" )]
 		[Space]
 		[SerializeField]
 		protected Rigidbody2D m_Rigidbody2D;
@@ -257,11 +260,28 @@ namespace RedRunner.Characters
 			}
 		}
 
-		#endregion
+        public override float ContinuousDistance
+        {
+            get
+            {
+                return m_ContinuousDistance;
+            }
+        }
 
-		#region MonoBehaviour Messages
+        public override float StartingPosition
+        {
+            get
+            {
+                return m_startingPosition;
+            }
+        }
 
-		void Awake ()
+
+        #endregion
+
+        #region MonoBehaviour Messages
+
+        void Awake ()
 		{
 			m_InitialPosition = transform.position;
 			m_InitialScale = transform.localScale;
@@ -273,6 +293,7 @@ namespace RedRunner.Characters
 			m_Block = false;
 			m_CurrentFootstepSoundIndex = 0;
 			GameManager.OnReset += GameManager_OnReset;
+            m_startingPosition = transform.position.x;
 		}
 
         int trajectoryCount = 5;
@@ -287,8 +308,8 @@ namespace RedRunner.Characters
             {
                 if (!once)
                 {
-                    Debug.Log("leadup dist: " + (transform.position.x - startPos));
-                    Debug.Log(m_Speed.x);
+                    m_ContinuousDistance = transform.position.x - startPos;
+
                     once = true;
                     started = false;
                 }
@@ -298,7 +319,6 @@ namespace RedRunner.Characters
                 }
                 else
                 {
-                    Debug.Log(transform.position.x + ", " + transform.position.y);
                     trajectoryCount = 5;
                 }
             }

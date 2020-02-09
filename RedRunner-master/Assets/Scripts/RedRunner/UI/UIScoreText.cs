@@ -28,7 +28,7 @@ namespace RedRunner.UI
 		void GameManager_OnScoreChanged ( float newScore, float highScore, float lastScore )
 		{
 			text = newScore.ToLength ();
-			if ( newScore > highScore && !m_Collected )
+            if ( newScore > highScore && !m_Collected )
 			{
 				m_Collected = true;
 				GetComponent<Animator> ().SetTrigger ( "Collect" );
