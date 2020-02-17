@@ -39,23 +39,23 @@ namespace RedRunner.TerrainGeneration
 		protected float m_BackgroundGenerateRange = 200f;
 		[SerializeField]
 		protected Character m_Character;
+		protected Block m_LastBlock;
+		protected BackgroundBlock m_LastBackgroundBlock;
+		protected float m_RemoveTime = 0f;
+		protected bool m_Reset = false;
+
         // Params for spawning blocks with different separations and heights
         public float m_MinExtraWidth = 1f;
         public float m_MaxExtraWidth = 9f;
         public float m_MinExtraHeight = -4f;
         public float m_MaxExtraHeight = 4f;
 
-        public float m_AbsMinHeight = -6f;
+        public float m_AbsMinHeight = 1f;
         public float m_AbsMaxHeight = 76f;
-        protected Block m_LastBlock;
-		protected BackgroundBlock m_LastBackgroundBlock;
-		protected float m_RemoveTime = 0f;
-		protected bool m_Reset = false;
-
         [Range(0.15f, 1f)]
         public float difficultyFactor = 0.15f;
 
-		public float PreviousX
+        public float PreviousX
 		{
 			get
 			{
@@ -135,7 +135,7 @@ namespace RedRunner.TerrainGeneration
 			}
 			Generate ();
 
-            int distance = Mathf.FloorToInt(m_Character.transform.position.x - m_Character.StartingPosition);
+            int distance = Mathf.FloorToInt(m_Character.transform.position.x - m_Character.StartingPos);
             difficultyFactor = (distance / 500f);
             if (difficultyFactor > 1f)
             {
@@ -146,7 +146,7 @@ namespace RedRunner.TerrainGeneration
             {
                 difficultyFactor = 0.15f;
             }
-		}
+        }
 
 		public virtual void Generate ()
 		{
@@ -305,11 +305,11 @@ namespace RedRunner.TerrainGeneration
             // use a gaussian curve to get a value 0 - 1 based on the difficulty
             float rawRandomFloat = Random.Range(0f, 1f);
             float variance = (difficultyFactor * 5f / 8f) + (3f / 8f);
-            float difficultyProbablilty = variance * (Mathf.Exp(-(Mathf.Pow((0.5f - rawRandomFloat),2) / (variance * variance / (difficultyFactor * 10f) ))));
+            float difficultyProbablilty = variance * (Mathf.Exp(-(Mathf.Pow((0.5f - rawRandomFloat), 2) / (variance * variance / (difficultyFactor * 10f)))));
             return difficultyProbablilty;
         }
 
-		public virtual bool CreateBlock ( Block blockPrefab, Vector3 position )
+        public virtual bool CreateBlock ( Block blockPrefab, Vector3 position )
 		{
 			if ( blockPrefab == null )
 			{
@@ -317,7 +317,6 @@ namespace RedRunner.TerrainGeneration
 			}
 			blockPrefab.PreGenerate ( this );
 			Block block = Instantiate<Block> ( blockPrefab, position, Quaternion.identity );
-            Debug.Log("new block");
 
             // TODO: randomize block size and height
             float maxRunningDistance = block.Width;
@@ -367,12 +366,13 @@ namespace RedRunner.TerrainGeneration
                 previousHeight = m_LastBlock.transform.position.y;
             }
             block.transform.position = new Vector3(block.transform.position.x, Mathf.Clamp(previousHeight + extraHeight, m_AbsMinHeight, m_AbsMaxHeight), 0f);
-            
+
             //Debug.Log("extraWidth = " + extraWidth + " extraHeight = " + extraHeight + "yCheck = " + yCheck);
             float blockWidth = block.Width;
-            
+
             block.Width = blockWidth + extraWidth;
-			m_PreviousX = m_CurrentX;
+
+            m_PreviousX = m_CurrentX;
 			m_CurrentX += block.Width;
 			m_Blocks.Add ( position, block );
 			blockPrefab.PostGenerate ( this );

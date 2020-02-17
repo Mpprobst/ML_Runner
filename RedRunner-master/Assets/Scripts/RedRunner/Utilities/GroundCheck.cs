@@ -40,10 +40,9 @@ namespace RedRunner.Utilities
 			Debug.DrawRay (left, new Vector2 (0f, -m_RayDistance));
 			bool grounded1 = hit1 != null && hit1.collider != null && hit1.collider.CompareTag (GROUND_TAG);
 		
-			RaycastHit2D hit2 = Physics2D.Raycast (center, new Vector2 (0f, -1.5f), m_RayDistance, LayerMask.GetMask (GROUND_LAYER_NAME));
+			RaycastHit2D hit2 = Physics2D.Raycast (center, new Vector2 (0f, -1f), m_RayDistance, LayerMask.GetMask (GROUND_LAYER_NAME));
 			Debug.DrawRay (center, new Vector2 (0f, -m_RayDistance));
 			bool grounded2 = hit2 != null && hit2.collider != null && hit2.collider.CompareTag (GROUND_TAG);
-            Debug.Log(hit2.collider);
 		
 			RaycastHit2D hit3 = Physics2D.Raycast (right, new Vector2 (0f, -1f), m_RayDistance, LayerMask.GetMask (GROUND_LAYER_NAME));
 			Debug.DrawRay (right, new Vector2 (0f, -m_RayDistance));

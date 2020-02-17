@@ -7,8 +7,9 @@ namespace RedRunner.TerrainGeneration
 
 	public abstract class Block : MonoBehaviour
 	{
-        [SerializeField]
-        public float m_Width;
+
+		[SerializeField]
+		protected float m_Width;
 		[SerializeField]
 		protected float m_Probability = 1f;
 
@@ -21,12 +22,7 @@ namespace RedRunner.TerrainGeneration
 			}
 		}
 
-        public void Start()
-        {
-            //this.Width = m_Width;
-        }
-
-        public virtual float Probability {
+		public virtual float Probability {
 			get {
 				return m_Probability;
 			}
