@@ -40,7 +40,7 @@ namespace RedRunner.Characters
 		[SerializeField]
 		protected Animator m_Animator;
 		[SerializeField]
-		protected GroundCheck m_GroundCheck;
+		public GroundCheck m_GroundCheck;
 		[SerializeField]
 		protected ParticleSystem m_RunParticleSystem;
 		[SerializeField]
@@ -277,6 +277,12 @@ namespace RedRunner.Characters
 
         #endregion
 
+        // events used to determine player performance
+        public UnityEvent jumpEvent;
+        //public BlockEvent landEvent;
+
+        private bool land = true;
+
         #region MonoBehaviour Messages
 
         void Awake ()
@@ -315,6 +321,14 @@ namespace RedRunner.Characters
 			{
 				m_CurrentRunSpeed = Mathf.SmoothDamp ( m_Speed.x, m_MaxRunSpeed, ref m_CurrentSmoothVelocity, m_RunSmoothTime );
 			}
+
+            // find when player lands
+            /*
+            if (m_GroundCheck.IsGrounded && !land)
+            {
+                land = true;
+                landEvent.Invoke(m_GroundCheck.gameObject);
+            }*/
 
 			// Input Processing
 			Move ( CrossPlatformInputManager.GetAxis ( "Horizontal" ) );
@@ -471,6 +485,8 @@ namespace RedRunner.Characters
 			{
 				if ( m_GroundCheck.IsGrounded )
 				{
+                    jumpEvent.Invoke();
+
 					Vector2 velocity = m_Rigidbody2D.velocity;
 					velocity.y = m_JumpStrength;
 					m_Rigidbody2D.velocity = velocity;

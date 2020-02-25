@@ -309,35 +309,32 @@ namespace RedRunner.TerrainGeneration
             return difficultyProbablilty;
         }
 
-        public virtual bool CreateBlock ( Block blockPrefab, Vector3 position )
-		{
-			if ( blockPrefab == null )
-			{
-				return false;
-			}
-			blockPrefab.PreGenerate ( this );
-			Block block = Instantiate<Block> ( blockPrefab, position, Quaternion.identity );
-
-            // TODO: randomize block size and height
-            float maxRunningDistance = block.Width;
-            if (m_Character.ContinuousDistance > maxRunningDistance)
+        public void CheckX(ref float currentMaxWidth, ref float extraWidth, ref float extraHeight)
+        {
+            // make sure jump is possible
+            float xCheck = 0;
+            float midpoint = currentMaxWidth / 2f;
+            if (extraWidth < midpoint)
             {
-                Debug.Log("using continuous distance");
-                maxRunningDistance = m_Character.ContinuousDistance;
+                xCheck = extraWidth;
+            }
+            else
+            {
+                //Debug.Log("using y equation");
+                xCheck = midpoint;
             }
 
-            Debug.Log("maxRunningDistance = " + maxRunningDistance);
-            float potentialSpeed = 0.85f * Mathf.Log(maxRunningDistance) + 3.84f;
+            // Legacy function for specific speed
+            if (extraWidth > xCheck)
+            {
+                extraWidth = xCheck - 0.5f;
+                Debug.Log("adjusting impossible jump width = " + extraWidth);
+            }
 
-            float speed = m_Character.Speed.x;
-            float currentMaxWidth = 0.58f * potentialSpeed + 5.56f;
-            //Debug.Log("speed of " + potentialSpeed + " gives random width between " + m_MinExtraWidth + " and " + currentMaxWidth);
+        }
 
-            float randomWidthFactor = GetDifficultyProbablilty();
-            float randomHeightFactor = GetDifficultyProbablilty();
-            float extraWidth = randomWidthFactor * (currentMaxWidth - m_MinExtraWidth);
-            float extraHeight = randomHeightFactor * (m_MaxExtraHeight * (Random.Range(0, 2) * 2 - 1));
-
+        public void CheckY(ref float currentMaxWidth, ref float extraWidth, ref float extraHeight)
+        {
             // make sure jump is possible
             float yCheck = 0;
             float midpoint = currentMaxWidth / 2f;
@@ -355,9 +352,65 @@ namespace RedRunner.TerrainGeneration
             //float yCheck = -0.175f * (extraWidth * extraWidth) + 1.75f * extraWidth + 0.14f;
             if (extraHeight > yCheck)
             {
-                Debug.Log("adjusting impossible jump");
                 extraHeight = yCheck - 0.5f;
+                Debug.Log("adjusting impossible jump height = " + extraHeight);
             }
+        }
+
+        public virtual bool CreateBlock ( Block blockPrefab, Vector3 position )
+		{
+			if ( blockPrefab == null )
+			{
+				return false;
+			}
+			blockPrefab.PreGenerate ( this );
+			Block block = Instantiate<Block> ( blockPrefab, position, Quaternion.identity );
+
+            // TODO: randomize block size and height
+            float maxRunningDistance = block.Width;
+            if (m_Character.ContinuousDistance > maxRunningDistance)
+            {
+                Debug.Log("using continuous distance");
+                maxRunningDistance = m_Character.ContinuousDistance;
+            }
+
+            //Debug.Log("maxRunningDistance = " + maxRunningDistance);
+            float potentialSpeed = 0.85f * Mathf.Log(maxRunningDistance) + 3.84f;
+
+            float speed = m_Character.Speed.x;
+            float currentMaxWidth = 0.58f * potentialSpeed + 5.56f;
+            //Debug.Log("speed of " + potentialSpeed + " gives random width between " + m_MinExtraWidth + " and " + currentMaxWidth);
+
+            float randomWidthFactor = GetDifficultyProbablilty();
+            float randomHeightFactor = GetDifficultyProbablilty();
+            float extraWidth = randomWidthFactor * (currentMaxWidth - m_MinExtraWidth);
+
+            int randomNeg = Random.Range(0, 2);
+
+            if (randomNeg == 0)
+            {
+                randomNeg = -1;
+            }
+
+            float extraHeight = randomHeightFactor * (m_MaxExtraHeight - m_MinExtraHeight) * randomNeg;
+
+            // randomize x or y dependency
+            int random = Random.Range(0, 2);
+            if (random == 0)
+            {
+                CheckY(ref currentMaxWidth, ref extraWidth, ref extraHeight);
+            }
+            else
+            {
+                CheckX(ref currentMaxWidth, ref extraWidth, ref extraHeight);
+            }
+
+            if (extraWidth < m_MinExtraWidth)
+            {
+                Debug.Log("was min width");
+                extraWidth = m_MinExtraWidth;
+            }
+
 
             // change height of the new block
             float previousHeight = 0f;
@@ -367,7 +420,7 @@ namespace RedRunner.TerrainGeneration
             }
             block.transform.position = new Vector3(block.transform.position.x, Mathf.Clamp(previousHeight + extraHeight, m_AbsMinHeight, m_AbsMaxHeight), 0f);
 
-            //Debug.Log("extraWidth = " + extraWidth + " extraHeight = " + extraHeight + "yCheck = " + yCheck);
+            //Debug.Log("extraWidth = " + extraWidth + " extraHeight = " + extraHeight );
             float blockWidth = block.Width;
 
             block.Width = blockWidth + extraWidth;

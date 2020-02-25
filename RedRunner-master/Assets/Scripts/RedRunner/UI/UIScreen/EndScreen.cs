@@ -18,10 +18,15 @@ namespace RedRunner.UI
         {
             ResetButton.SetButtonAction(() =>
             {
+                Debug.Log("shiver");
                 GameManager.Singleton.Reset();
+                Debug.Log("me");
                 var ingameScreen = UIManager.Singleton.GetUIScreen(UIScreenInfo.IN_GAME_SCREEN);
+                Debug.Log("god");
                 UIManager.Singleton.OpenScreen(ingameScreen);
+                Debug.Log("dammed");
                 GameManager.Singleton.StartGame();
+                Debug.Log("timbers");
             });
         }
 

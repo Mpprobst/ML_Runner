@@ -25,6 +25,10 @@ namespace RedRunner.Utilities
 
 		private bool m_IsGrounded = false;
 
+        [System.NonSerialized]
+        public BlockEvent landEvent;
+        public bool land = false;
+
 		void Awake ()
 		{
 			m_IsGrounded = false;
@@ -43,6 +47,16 @@ namespace RedRunner.Utilities
 			RaycastHit2D hit2 = Physics2D.Raycast (center, new Vector2 (0f, -1f), m_RayDistance, LayerMask.GetMask (GROUND_LAYER_NAME));
 			Debug.DrawRay (center, new Vector2 (0f, -m_RayDistance));
 			bool grounded2 = hit2 != null && hit2.collider != null && hit2.collider.CompareTag (GROUND_TAG);
+            // when we no longer see that we are grounded, wait for landing
+            if (!grounded2 && land)
+            {
+                land = false;
+            }
+            if (grounded2 && !land)
+            {
+                land = true;
+                landEvent.Invoke(hit2.collider.transform.parent.transform.parent.gameObject);
+            }
 		
 			RaycastHit2D hit3 = Physics2D.Raycast (right, new Vector2 (0f, -1f), m_RayDistance, LayerMask.GetMask (GROUND_LAYER_NAME));
 			Debug.DrawRay (right, new Vector2 (0f, -m_RayDistance));
