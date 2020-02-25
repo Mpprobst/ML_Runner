@@ -54,6 +54,16 @@ namespace RedRunner.TerrainGeneration
             startTime = Time.time;
 
             StartCoroutine(SpeedUpdater());
+
+            GameManager.OnReset += Reset;
+        }
+
+        protected virtual void Reset()
+        {
+            speedSamples = new Queue<float>();
+            blockTimes = new Queue<float>();
+
+            startTime = Time.time;
         }
 
         // Update is called once per frame

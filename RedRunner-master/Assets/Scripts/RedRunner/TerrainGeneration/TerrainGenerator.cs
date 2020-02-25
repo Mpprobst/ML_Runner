@@ -262,20 +262,21 @@ namespace RedRunner.TerrainGeneration
 		public virtual void RemoveAll ()
 		{
 			List<Block> blocksToRemove = new List<Block> ();
-			foreach ( KeyValuePair<Vector3, Block> block in m_Blocks )
+
+            foreach ( KeyValuePair<Vector3, Block> block in m_Blocks )
 			{
-				blocksToRemove.Add ( block.Value );
+                blocksToRemove.Add ( block.Value );
 			}
-			List<BackgroundBlock> backgroundBlocksToRemove = new List<BackgroundBlock> ();
+            List<BackgroundBlock> backgroundBlocksToRemove = new List<BackgroundBlock> ();
 			foreach ( KeyValuePair<Vector3, BackgroundBlock> block in m_BackgroundBlocks )
 			{
 				backgroundBlocksToRemove.Add ( block.Value );
 			}
-			for ( int i = 0; i < blocksToRemove.Count; i++ )
+            for ( int i = 0; i < blocksToRemove.Count; i++ )
 			{
 				RemoveBlock ( blocksToRemove [ i ] );
 			}
-			for ( int i = 0; i < backgroundBlocksToRemove.Count; i++ )
+            for ( int i = 0; i < backgroundBlocksToRemove.Count; i++ )
 			{
 				RemoveBackgroundBlock ( backgroundBlocksToRemove [ i ] );
 			}
@@ -289,8 +290,8 @@ namespace RedRunner.TerrainGeneration
 		public virtual void RemoveBlock ( Block block )
 		{
 			block.OnRemove ( this );
-			Destroy ( m_Blocks [ block.transform.position ].gameObject );
-			m_Blocks.Remove ( block.transform.position );
+            Destroy( m_Blocks [ block.transform.position ].gameObject );
+            m_Blocks.Remove ( block.transform.position );
 		}
 
 		public virtual void RemoveBackgroundBlock ( BackgroundBlock block )
@@ -425,6 +426,7 @@ namespace RedRunner.TerrainGeneration
 
             block.Width = blockWidth + extraWidth;
 
+            position = block.transform.position;
             m_PreviousX = m_CurrentX;
 			m_CurrentX += block.Width;
 			m_Blocks.Add ( position, block );

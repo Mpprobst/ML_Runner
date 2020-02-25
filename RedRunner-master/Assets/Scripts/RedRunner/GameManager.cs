@@ -275,6 +275,7 @@ namespace RedRunner
             m_Score = 0f;
             if (OnReset != null)
             {
+                Debug.Log("finna reset");
                 OnReset();
             }
         }
