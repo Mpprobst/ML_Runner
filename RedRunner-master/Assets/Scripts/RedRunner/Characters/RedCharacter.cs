@@ -279,13 +279,14 @@ namespace RedRunner.Characters
 
         // events used to determine player performance
         public UnityEvent jumpEvent;
+        public UnityEvent death;
         //public BlockEvent landEvent;
 
         private bool land = true;
 
         #region MonoBehaviour Messages
 
-        void Awake ()
+        protected virtual void Awake ()
 		{
 			m_InitialPosition = transform.position;
 			m_InitialScale = transform.localScale;
@@ -298,9 +299,10 @@ namespace RedRunner.Characters
 			m_CurrentFootstepSoundIndex = 0;
 			GameManager.OnReset += GameManager_OnReset;
             m_StartingPos = transform.position.x;
+            death = new UnityEvent();
 		}
 
-		void Update ()
+		protected virtual void Update ()
 		{
 			if ( !GameManager.Singleton.gameStarted || !GameManager.Singleton.gameRunning )
 			{
@@ -507,6 +509,7 @@ namespace RedRunner.Characters
 		{
 			if ( !IsDead.Value )
 			{
+                death.Invoke();
                 IsDead.Value = true;
 				m_Skeleton.SetActive ( true, m_Rigidbody2D.velocity );
 				if ( blood )

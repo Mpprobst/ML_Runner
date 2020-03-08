@@ -11,7 +11,7 @@ namespace RedRunner.TerrainGeneration
 		[SerializeField]
 		protected float m_Width;
 		[SerializeField]
-		protected float m_Probability = 1f;
+		public float m_Probability = 1f;
 
 		public virtual float Width {
 			get {

@@ -20,7 +20,7 @@ namespace RedRunner.TerrainGeneration
 		[SerializeField]
 		protected Block[] m_StartBlocks;
 		[SerializeField]
-		protected Block[] m_MiddleBlocks;
+		public Block[] m_MiddleBlocks;
 		[SerializeField]
 		protected Block[] m_EndBlocks;
 		[SerializeField]

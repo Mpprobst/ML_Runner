@@ -163,6 +163,7 @@ namespace RedRunner
 
         private void Start()
         {
+            m_MainCharacter = GameObject.FindObjectOfType<Character>();
             m_MainCharacter.IsDead.AddEventAndFire(UpdateDeathEvent, this);
             m_StartScoreX = m_MainCharacter.transform.position.x;
             Init();
@@ -275,7 +276,6 @@ namespace RedRunner
             m_Score = 0f;
             if (OnReset != null)
             {
-                Debug.Log("finna reset");
                 OnReset();
             }
         }

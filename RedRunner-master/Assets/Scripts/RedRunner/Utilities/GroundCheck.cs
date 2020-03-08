@@ -57,7 +57,7 @@ namespace RedRunner.Utilities
                 land = true;
                 landEvent.Invoke(hit2.collider.transform.parent.transform.parent.gameObject);
             }
-		
+
 			RaycastHit2D hit3 = Physics2D.Raycast (right, new Vector2 (0f, -1f), m_RayDistance, LayerMask.GetMask (GROUND_LAYER_NAME));
 			Debug.DrawRay (right, new Vector2 (0f, -m_RayDistance));
 			bool grounded3 = hit3 != null && hit3.collider != null && hit3.collider.CompareTag (GROUND_TAG);

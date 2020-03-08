@@ -27,7 +27,7 @@ namespace RedRunner.TerrainGeneration
 		protected float m_CurrentX;
 		protected float m_FathestBackgroundX;
 		[SerializeField]
-		protected TerrainGenerationSettings m_Settings;
+		public TerrainGenerationSettings m_Settings;
 		protected int m_GeneratedStartBlocksCount;
 		protected int m_GeneratedMiddleBlocksCount;
 		protected int m_GeneratedEndBlocksCount;
@@ -81,6 +81,7 @@ namespace RedRunner.TerrainGeneration
 
 		protected virtual void Awake ()
 		{
+            m_Character = GameObject.FindObjectOfType<Character>();
 			if ( m_Singleton != null )
 			{
 				Destroy ( gameObject );
@@ -95,6 +96,8 @@ namespace RedRunner.TerrainGeneration
 				m_BackgroundLayers [ i ] = m_Settings.BackgroundLayers [ i ];
 			}
 			GameManager.OnReset += Reset;
+
+            Debug.Log(Settings.MiddleBlocks[0].name);
 		}
 
 		protected virtual void Reset ()
@@ -134,18 +137,6 @@ namespace RedRunner.TerrainGeneration
 				Remove ();
 			}
 			Generate ();
-
-            int distance = Mathf.FloorToInt(m_Character.transform.position.x - m_Character.StartingPos);
-            difficultyFactor = (distance / 500f);
-            if (difficultyFactor > 1f)
-            {
-                difficultyFactor = 1f;
-            }
-
-            if (difficultyFactor < 0.15f)
-            {
-                difficultyFactor = 0.15f;
-            }
         }
 
 		public virtual void Generate ()
