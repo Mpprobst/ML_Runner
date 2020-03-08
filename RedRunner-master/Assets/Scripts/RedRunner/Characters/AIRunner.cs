@@ -44,7 +44,14 @@ namespace RedRunner.Characters
                 Vector2 rayStart = new Vector2(gameObject.transform.position.x + lookDistance, gameObject.transform.position.y);
                 RaycastHit2D hit = Physics2D.Raycast(rayStart, sensorVector, 10f, LayerMask.GetMask(GROUND_LAYER_NAME));
                 Debug.DrawRay(rayStart, sensorVector * 10f);
-                bool edgeDetected = hit != null && hit.collider != null && (hit.collider.CompareTag(GROUND_TAG) || hit.collider.CompareTag(ENEMY_TAG));
+                bool edgeDetected = hit != null && hit.collider != null && hit.collider.CompareTag(GROUND_TAG);
+
+                bool enemyDetected = hit != null && hit.collider != null && hit.collider.CompareTag(ENEMY_TAG);
+
+                if (enemyAware && enemyDetected)
+                {
+                    Jump();
+                }
 
                 if (!edgeDetected)
                 {

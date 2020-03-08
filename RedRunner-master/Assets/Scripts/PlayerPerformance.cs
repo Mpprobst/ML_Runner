@@ -14,6 +14,8 @@ namespace RedRunner.TerrainGeneration
     public class PlayerPerformance : MonoBehaviour
     {
         public RedCharacter player;
+        private SaveFile saveFile;
+        public PlayerStats[] statsArray;    // for all agents and player profiles
         public PlayerStats playerStats;
         private TerrainGenerator terrain;
 
@@ -35,13 +37,30 @@ namespace RedRunner.TerrainGeneration
         public float avgBlockTime;
         // number of pickups
 
-
         // score that adds all criteria
 
         // Start is called before the first frame update
         void Start()
         {
             player = GameObject.FindObjectOfType<RedCharacter>();
+
+            // load values into these stat objects from save file
+            saveFile = GameObject.FindObjectOfType<SaveFile>();
+
+            if (saveFile)
+            {
+                saveFile.ReadData();
+                statsArray = saveFile.data.profileData;
+            }
+
+            foreach (PlayerStats stat in statsArray)
+            {
+                if (stat.name == player.name + "Data")
+                {
+                    playerStats = stat;
+                    break;
+                }
+            }
 
             terrain = GameObject.FindObjectOfType<TerrainGenerator>();
 
@@ -235,9 +254,25 @@ namespace RedRunner.TerrainGeneration
                 {
                     playerStats.obstacles[i].failures += 1;
                     Debug.Log("Died on " + blockName);
+                    SaveStats();
                 }
             }
+        }
 
+        private void SaveStats()
+        {
+            for (int i = 0; i < statsArray.Length; i++)
+            {
+                if (statsArray[i].name == playerStats.name)
+                    statsArray[i] = playerStats;
+            }
+            saveFile.data.profileData = statsArray;
+            saveFile.SaveData();
+        }
+
+        private void OnApplicationQuit()
+        {
+            SaveStats();
         }
 
     }
