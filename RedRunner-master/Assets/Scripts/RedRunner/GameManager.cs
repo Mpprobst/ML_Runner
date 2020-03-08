@@ -239,6 +239,12 @@ namespace RedRunner
         {
             m_GameRunning = false;
             Time.timeScale = 0f;
+            if (m_MainCharacter is AIRunner)
+            {
+
+                GameObject.FindObjectOfType<RedRunner.UI.EndScreen>().ResetButton.onClick.Invoke();
+
+            }
         }
 
         public void ResumeGame()

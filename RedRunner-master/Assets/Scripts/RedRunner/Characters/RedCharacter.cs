@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using UnityStandardAssets.CrossPlatformInput;
 
 using RedRunner.Utilities;
+using RedRunner.TerrainGeneration;
 
 namespace RedRunner.Characters
 {

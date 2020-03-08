@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using RedRunner.Characters;
+
 namespace RedRunner.Utilities
 {
 
@@ -59,6 +61,7 @@ namespace RedRunner.Utilities
 
 		void Start ()
 		{
+            m_Followee = GameObject.FindObjectOfType<RedCharacter>().gameObject.transform;
 			m_OldPosition = transform.position;
 		}
 

@@ -12,9 +12,21 @@ namespace RedRunner.TerrainGeneration
         public PlayerStats[] profileData;
 
         // initial save file with all agent data, but with values set to 0
-        public SaveFileData(PlayerStats[] initialData)
+
+        public SaveFileData()
         {
-            profileData = initialData;
+            List<PlayerStats> statList = new List<PlayerStats>();
+            // IF NEW AGENT IS ADDED, ADD IT TO THIS LIST IN ORDER TO SAVE ITS DATA
+            statList.Add(new PlayerStats("RedRunner"));
+            statList.Add(new PlayerStats("FullSteamAgent"));
+            statList.Add(new PlayerStats("FullSteamUnawareAgent"));
+
+            profileData = new PlayerStats[statList.Count];
+
+            for (int i = 0; i < statList.Count; i++)
+            {
+                profileData[i] = statList[i];
+            }
         }
     }
 }

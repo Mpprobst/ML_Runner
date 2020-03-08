@@ -7,7 +7,7 @@ namespace RedRunner.TerrainGeneration
 {
     public class SaveFile : MonoBehaviour
     {
-        public string fileName = "player_data.json";
+        public string fileName = "game_data.json";
         public string path;
         public PlayerStats[] initialData;
 
@@ -22,7 +22,7 @@ namespace RedRunner.TerrainGeneration
 
         public void Initialize()
         {
-            fileName = "player_data.json";
+            fileName = "game_data.json";
             path = Application.persistentDataPath + "/" + fileName;
             Debug.Log(path);
         }
@@ -31,7 +31,7 @@ namespace RedRunner.TerrainGeneration
         {
             Debug.Log("Saving...");
 
-            SaveFileWrapper wrapper = new SaveFileWrapper(initialData);
+            SaveFileWrapper wrapper = new SaveFileWrapper();
             wrapper.data = data;
 
             string contents = JsonUtility.ToJson(wrapper, true);
@@ -52,8 +52,8 @@ namespace RedRunner.TerrainGeneration
                 }
                 else
                 {
-                    print("Unable to read game data. File does not exist");
-                    data = new SaveFileData(initialData);
+                    print("Unable to read game data. File does not exist. Creating new save file");
+                    data = new SaveFileData();
                     SaveData();
                 }
             }

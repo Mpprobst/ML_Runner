@@ -8,7 +8,7 @@ namespace RedRunner.UI
     public class EndScreen : UIScreen
     {
         [SerializeField]
-        protected Button ResetButton = null;
+        public Button ResetButton = null;
         [SerializeField]
         protected Button HomeButton = null;
         [SerializeField]

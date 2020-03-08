@@ -9,9 +9,9 @@ namespace RedRunner.TerrainGeneration
     {
         public SaveFileData data;
 
-        public SaveFileWrapper(PlayerStats[] initialdata)
+        public SaveFileWrapper()
         {
-            data = new SaveFileData(initialdata);
+            data = new SaveFileData();
         }
     }
 }

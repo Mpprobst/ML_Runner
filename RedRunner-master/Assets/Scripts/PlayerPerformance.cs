@@ -15,7 +15,6 @@ namespace RedRunner.TerrainGeneration
     {
         public RedCharacter player;
         private SaveFile saveFile;
-        public PlayerStats[] statsArray;    // for all agents and player profiles
         public PlayerStats playerStats;
         private TerrainGenerator terrain;
 
@@ -47,15 +46,9 @@ namespace RedRunner.TerrainGeneration
             // load values into these stat objects from save file
             saveFile = GameObject.FindObjectOfType<SaveFile>();
 
-            if (saveFile)
+            foreach (PlayerStats stat in saveFile.data.profileData)
             {
-                saveFile.ReadData();
-                statsArray = saveFile.data.profileData;
-            }
-
-            foreach (PlayerStats stat in statsArray)
-            {
-                if (stat.name == player.name + "Data")
+                if (stat.profileName == player.name)
                 {
                     playerStats = stat;
                     break;
@@ -64,17 +57,13 @@ namespace RedRunner.TerrainGeneration
 
             terrain = GameObject.FindObjectOfType<TerrainGenerator>();
 
-            if (player)
-            {
-                player.jumpEvent = new UnityEngine.Events.UnityEvent();
-                player.m_GroundCheck.landEvent = new BlockEvent();
+            player.jumpEvent = new UnityEngine.Events.UnityEvent();
+            player.m_GroundCheck.landEvent = new BlockEvent();
 
-                player.jumpEvent.AddListener(PlayerJumped);
-                player.m_GroundCheck.landEvent.AddListener(PlayerLanded);
+            player.jumpEvent.AddListener(PlayerJumped);
+            player.m_GroundCheck.landEvent.AddListener(PlayerLanded);
 
-                player.death.AddListener(PlayerDied);
-
-            }
+            player.death.AddListener(PlayerDied);
 
             speedSamples = new Queue<float>();
             blockTimes = new Queue<float>();
@@ -107,8 +96,8 @@ namespace RedRunner.TerrainGeneration
 
         private void PlayerLanded(GameObject block)
         {
-
             Block landBlock = block.GetComponent<Block>();
+
             if (landBlock != currentBlock)
             {
                 if (blockTimes.Count > 10)
@@ -166,7 +155,7 @@ namespace RedRunner.TerrainGeneration
                         if (stat.successes != 0)
                         {
                             //blockData.m_Probability = (stat.successes - (stat.failures * (0.4f - terrain.difficultyFactor)) ) / stat.successes;
-                            blockData.m_Probability = Mathf.Abs( (stat.successes - (stat.failures / (0.5f - terrain.difficultyFactor))) / stat.successes ) ;
+                            blockData.m_Probability = Mathf.Abs( (stat.successes - (stat.failures * (0.5f - terrain.difficultyFactor))) / stat.successes ) ;
                         }
                         else
                         {
@@ -186,9 +175,9 @@ namespace RedRunner.TerrainGeneration
 
             float speedFactor = avgSpeed / 14f;
 
-            float timeFactor = (avgBlockTime - 1.5f) / 4;
+            float timeFactor = (avgBlockTime - 1.25f) / 4;
 
-            difficultyFactor = 0.5f * distanceFactor + (speedFactor - timeFactor) * 0.5f;
+            difficultyFactor = 0.75f * distanceFactor + (speedFactor - timeFactor) * 0.25f;
 
             if (difficultyFactor > 1f)
             {
@@ -261,12 +250,11 @@ namespace RedRunner.TerrainGeneration
 
         private void SaveStats()
         {
-            for (int i = 0; i < statsArray.Length; i++)
+            for (int i = 0; i < saveFile.data.profileData.Length; i++)
             {
-                if (statsArray[i].name == playerStats.name)
-                    statsArray[i] = playerStats;
+                if (saveFile.data.profileData[i].profileName == playerStats.profileName)
+                    saveFile.data.profileData[i] = playerStats;
             }
-            saveFile.data.profileData = statsArray;
             saveFile.SaveData();
         }
 

@@ -71,10 +71,10 @@ namespace RedRunner.Characters
 
         }
 
-        public override void Die()
+        public override void Die(bool blood)
         {
             StopCoroutine(FindEdge(Vector2.down));
-            base.Die();
+            base.Die(blood);
 
         }
     }
