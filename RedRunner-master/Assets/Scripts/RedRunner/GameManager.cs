@@ -45,7 +45,7 @@ namespace RedRunner
         private float m_StartScoreX = 0f;
         private float m_HighScore = 0f;
         private float m_LastScore = 0f;
-        private float m_Score = 0f;
+        public float m_Score = 0f;
 
         private bool m_GameStarted = false;
         private bool m_GameRunning = false;
@@ -242,7 +242,7 @@ namespace RedRunner
             if (m_MainCharacter is AIRunner)
             {
 
-                GameObject.FindObjectOfType<RedRunner.UI.EndScreen>().ResetButton.onClick.Invoke();
+               GameObject.FindObjectOfType<RedRunner.UI.EndScreen>().ResetButton.onClick.Invoke();
 
             }
         }

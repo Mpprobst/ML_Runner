@@ -9,6 +9,7 @@ namespace RedRunner.TerrainGeneration
     {
         public string profileName;
         public Obstacle[] obstacles;
+        public List<float> scores;
 
         [System.Serializable]
         public class Obstacle
@@ -43,6 +44,8 @@ namespace RedRunner.TerrainGeneration
             {
                 obstacles[i] = obList[i];
             }
+
+            scores = new List<float>();
         }
     }
 }

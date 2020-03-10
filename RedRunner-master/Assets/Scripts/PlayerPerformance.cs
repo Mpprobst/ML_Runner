@@ -100,6 +100,7 @@ namespace RedRunner.TerrainGeneration
 
             if (landBlock != currentBlock)
             {
+                Debug.Log("landed");
                 if (blockTimes.Count > 10)
                 {
                     blockTimes.Dequeue();
@@ -219,6 +220,12 @@ namespace RedRunner.TerrainGeneration
 
         private void PlayerDied()
         {
+
+            playerStats.scores.Add( Mathf.FloorToInt(player.transform.position.x - player.StartingPos) );
+            if (playerStats.scores.Count >= 100)
+            {
+                Debug.Break();
+            }
             Block[] allBlocks = GameObject.FindObjectsOfType<Block>();
             Block closestBlock = null;
             float closestDistance = 1000f;
