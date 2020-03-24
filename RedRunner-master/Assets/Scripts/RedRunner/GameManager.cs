@@ -134,6 +134,7 @@ namespace RedRunner
         {
             if (isDead)
             {
+                Debug.Log("UpdateDeathEvent");
                 StartCoroutine(DeathCrt());
             }
             else
@@ -144,6 +145,8 @@ namespace RedRunner
 
         IEnumerator DeathCrt()
         {
+            Debug.Log("DeathCrt");
+
             m_LastScore = m_Score;
             if (m_Score > m_HighScore)
             {
@@ -242,7 +245,8 @@ namespace RedRunner
             if (m_MainCharacter is AIRunner)
             {
 
-               GameObject.FindObjectOfType<RedRunner.UI.EndScreen>().ResetButton.onClick.Invoke();
+                // uncomment to have AI run over and over
+                //GameObject.FindObjectOfType<RedRunner.UI.EndScreen>().ResetButton.onClick.Invoke();
 
             }
         }
@@ -255,6 +259,8 @@ namespace RedRunner
 
         public void EndGame()
         {
+            Debug.Log("Endgame");
+
             m_GameStarted = false;
             StopGame();
         }

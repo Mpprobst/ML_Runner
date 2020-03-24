@@ -54,8 +54,9 @@ namespace RedRunner.Characters
 		protected Skeleton m_Skeleton;
 		[SerializeField]
 		protected float m_RollForce = 10f;
+        public Block currBlock;
 
-		[Header ( "Character Audio" )]
+        [Header ( "Character Audio" )]
 		[Space]
 		[SerializeField]
 		protected AudioSource m_MainAudioSource;

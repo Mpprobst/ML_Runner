@@ -316,10 +316,9 @@ namespace RedRunner.TerrainGeneration
                 xCheck = midpoint;
             }
 
-            // Legacy function for specific speed
             if (extraWidth > xCheck)
             {
-                extraWidth = xCheck - 0.5f;
+                extraWidth = xCheck - 0.25f;
                 Debug.Log("adjusting impossible jump width = " + extraWidth);
             }
 
@@ -337,7 +336,7 @@ namespace RedRunner.TerrainGeneration
             else
             {
                 //Debug.Log("using y equation");
-                yCheck = m_MaxExtraHeight - (m_MaxExtraHeight / midpoint) * extraHeight;
+                yCheck = m_MaxExtraHeight - (m_MaxExtraHeight / midpoint) * extraWidth;
             }
 
             // Legacy function for specific speed
@@ -358,7 +357,6 @@ namespace RedRunner.TerrainGeneration
 			blockPrefab.PreGenerate ( this );
 			Block block = Instantiate<Block> ( blockPrefab, position, Quaternion.identity );
 
-            // TODO: randomize block size and height
             float maxRunningDistance = block.Width;
             if (m_Character.ContinuousDistance > maxRunningDistance)
             {

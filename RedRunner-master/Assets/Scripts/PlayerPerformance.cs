@@ -100,6 +100,7 @@ namespace RedRunner.TerrainGeneration
 
             if (landBlock != currentBlock)
             {
+                player.currBlock = landBlock;
                 Debug.Log("landed");
                 if (blockTimes.Count > 10)
                 {
