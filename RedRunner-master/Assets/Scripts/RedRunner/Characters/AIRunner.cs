@@ -18,7 +18,7 @@ namespace RedRunner.Characters
 
         private float maxInputVal = 1f;
         public float reactionTime = 0.001f; // used by coroutines to simulate think speed
-        private float lookDistance = 2f;
+        private float lookDistance = 1f;
 
         // used to find next block
         public BlockFinder blockFinder;
@@ -183,17 +183,18 @@ namespace RedRunner.Characters
         /// <returns></returns>
         protected virtual void PreciseMovement()
         {
-            Debug.Log("starting precisely moving");
             float traveled = 0f;
 
-            //while (true)
-            //{
             traveled = transform.position.x - jumpPosition;
 
             //float potentialDist = 0.58f * Speed.x + 5.56f - traveled;
             float potentialDist = 2f * Mathf.Log(Speed.x) + 5.342f - traveled;
+            if (!jumped)
+            {
+                potentialDist = potentialDist / 2f;
+            }
 
-            //Debug.Log("traveled " + traveled + " from jump. Can move " + potentialDist + " more.");
+            Debug.Log("traveled " + traveled + " from jump. Can move " + potentialDist + " more.");
 
             Vector2 rayStart = new Vector2(jumpPosition + traveled + potentialDist, gameObject.transform.position.y);
             RaycastHit2D hit = Physics2D.Raycast(rayStart, new Vector2(0, -1), 10f, LayerMask.GetMask(GROUND_LAYER_NAME));
@@ -220,9 +221,6 @@ namespace RedRunner.Characters
             if (inputVal < 0)
                 inputVal = 0;
 
-
-            //yield return new WaitForSeconds(reactionTime);
-            //}
         }
 
         protected GameObject FindBlock()

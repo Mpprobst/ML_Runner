@@ -18,8 +18,14 @@ namespace RedRunner.TerrainGeneration
             List<PlayerStats> statList = new List<PlayerStats>();
             // IF NEW AGENT IS ADDED, ADD IT TO THIS LIST IN ORDER TO SAVE ITS DATA
             statList.Add(new PlayerStats("RedRunner"));
-            statList.Add(new PlayerStats("FullSteamAgent"));
-            statList.Add(new PlayerStats("FullSteamUnawareAgent"));
+            statList.Add(new PlayerStats("Agent_EPP"));
+            statList.Add(new PlayerStats("Agent_EPF"));
+            statList.Add(new PlayerStats("Agent_EXP"));
+            statList.Add(new PlayerStats("Agent_EXF"));
+            statList.Add(new PlayerStats("Agent_XPP"));
+            statList.Add(new PlayerStats("Agent_XPF"));
+            statList.Add(new PlayerStats("Agent_XXP"));
+            statList.Add(new PlayerStats("Agent_XXF"));
 
             profileData = new PlayerStats[statList.Count];
 

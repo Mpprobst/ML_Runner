@@ -55,6 +55,7 @@ namespace RedRunner.Characters
 		[SerializeField]
 		protected float m_RollForce = 10f;
         public Block currBlock;
+        public bool jumped;
 
         [Header ( "Character Audio" )]
 		[Space]
@@ -452,6 +453,7 @@ namespace RedRunner.Characters
 		{
 			if ( m_GroundCheck.IsGrounded )
 			{
+                jumped = false;
 				AudioManager.Singleton.PlayFootstepSound ( m_FootstepAudioSource, ref m_CurrentFootstepSoundIndex );
 			}
 		}
@@ -489,6 +491,7 @@ namespace RedRunner.Characters
 			{
 				if ( m_GroundCheck.IsGrounded )
 				{
+                    jumped = true;
                     jumpEvent.Invoke();
 
 					Vector2 velocity = m_Rigidbody2D.velocity;
