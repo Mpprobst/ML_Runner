@@ -358,6 +358,7 @@ namespace RedRunner.TerrainGeneration
 			Block block = Instantiate<Block> ( blockPrefab, position, Quaternion.identity );
 
             float maxRunningDistance = block.Width;
+            block.originalWidth = block.Width;
             if (m_Character.ContinuousDistance > maxRunningDistance)
             {
                 Debug.Log("using continuous distance");

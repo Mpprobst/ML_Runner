@@ -1,0 +1,402 @@
+{
+    "data": {
+        "profileData": [
+            {
+                "profileName": "RedRunner",
+                "obstacles": [
+                    {
+                        "name": "1_SingleBlock",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "2_DoubleBlock",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "2_DoubleBlockSpike",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "3_TripleBlock",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "4_QuadBlock",
+                        "successes": 0,
+                        "failures": 0
+                    }
+                ],
+                "scores": []
+            },
+            {
+                "profileName": "Agent_EPP",
+                "obstacles": [
+                    {
+                        "name": "1_SingleBlock",
+                        "successes": 58,
+                        "failures": 22
+                    },
+                    {
+                        "name": "2_DoubleBlock",
+                        "successes": 152,
+                        "failures": 10
+                    },
+                    {
+                        "name": "2_DoubleBlockSpike",
+                        "successes": 97,
+                        "failures": 52
+                    },
+                    {
+                        "name": "3_TripleBlock",
+                        "successes": 207,
+                        "failures": 11
+                    },
+                    {
+                        "name": "4_QuadBlock",
+                        "successes": 182,
+                        "failures": 6
+                    }
+                ],
+                "scores": [
+                    175.0,
+                    149.0,
+                    83.0,
+                    123.0,
+                    89.0,
+                    64.0,
+                    68.0,
+                    37.0,
+                    265.0,
+                    74.0,
+                    36.0,
+                    101.0,
+                    136.0,
+                    65.0,
+                    40.0,
+                    45.0,
+                    180.0,
+                    49.0,
+                    91.0,
+                    202.0,
+                    39.0,
+                    156.0,
+                    109.0,
+                    257.0,
+                    183.0,
+                    68.0,
+                    175.0,
+                    51.0,
+                    41.0,
+                    97.0,
+                    71.0,
+                    64.0,
+                    244.0,
+                    210.0,
+                    65.0,
+                    174.0,
+                    55.0,
+                    57.0,
+                    60.0,
+                    83.0,
+                    69.0,
+                    114.0,
+                    81.0,
+                    104.0,
+                    86.0,
+                    61.0,
+                    70.0,
+                    235.0,
+                    99.0,
+                    226.0,
+                    38.0,
+                    55.0,
+                    198.0,
+                    69.0,
+                    47.0,
+                    38.0,
+                    146.0,
+                    92.0,
+                    129.0,
+                    148.0,
+                    43.0,
+                    205.0,
+                    38.0,
+                    116.0,
+                    66.0,
+                    178.0,
+                    143.0,
+                    38.0,
+                    175.0,
+                    108.0,
+                    68.0,
+                    157.0,
+                    241.0,
+                    90.0,
+                    43.0,
+                    105.0,
+                    61.0,
+                    156.0,
+                    176.0,
+                    249.0,
+                    193.0,
+                    304.0,
+                    120.0,
+                    81.0,
+                    127.0,
+                    112.0,
+                    74.0,
+                    58.0,
+                    290.0,
+                    206.0,
+                    140.0,
+                    39.0,
+                    147.0,
+                    66.0,
+                    104.0,
+                    99.0,
+                    112.0,
+                    65.0,
+                    366.0,
+                    112.0
+                ]
+            },
+            {
+                "profileName": "Agent_EPF",
+                "obstacles": [
+                    {
+                        "name": "1_SingleBlock",
+                        "successes": 5,
+                        "failures": 5
+                    },
+                    {
+                        "name": "2_DoubleBlock",
+                        "successes": 7,
+                        "failures": 2
+                    },
+                    {
+                        "name": "2_DoubleBlockSpike",
+                        "successes": 7,
+                        "failures": 5
+                    },
+                    {
+                        "name": "3_TripleBlock",
+                        "successes": 22,
+                        "failures": 2
+                    },
+                    {
+                        "name": "4_QuadBlock",
+                        "successes": 21,
+                        "failures": 1
+                    }
+                ],
+                "scores": [
+                    173.0,
+                    39.0,
+                    185.0,
+                    67.0,
+                    67.0,
+                    234.0,
+                    161.0,
+                    89.0,
+                    127.0,
+                    98.0,
+                    267.0,
+                    38.0,
+                    94.0,
+                    63.0,
+                    65.0
+                ]
+            },
+            {
+                "profileName": "Agent_EXP",
+                "obstacles": [
+                    {
+                        "name": "1_SingleBlock",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "2_DoubleBlock",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "2_DoubleBlockSpike",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "3_TripleBlock",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "4_QuadBlock",
+                        "successes": 0,
+                        "failures": 0
+                    }
+                ],
+                "scores": []
+            },
+            {
+                "profileName": "Agent_EXF",
+                "obstacles": [
+                    {
+                        "name": "1_SingleBlock",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "2_DoubleBlock",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "2_DoubleBlockSpike",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "3_TripleBlock",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "4_QuadBlock",
+                        "successes": 0,
+                        "failures": 0
+                    }
+                ],
+                "scores": []
+            },
+            {
+                "profileName": "Agent_XPP",
+                "obstacles": [
+                    {
+                        "name": "1_SingleBlock",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "2_DoubleBlock",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "2_DoubleBlockSpike",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "3_TripleBlock",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "4_QuadBlock",
+                        "successes": 0,
+                        "failures": 0
+                    }
+                ],
+                "scores": []
+            },
+            {
+                "profileName": "Agent_XPF",
+                "obstacles": [
+                    {
+                        "name": "1_SingleBlock",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "2_DoubleBlock",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "2_DoubleBlockSpike",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "3_TripleBlock",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "4_QuadBlock",
+                        "successes": 0,
+                        "failures": 0
+                    }
+                ],
+                "scores": []
+            },
+            {
+                "profileName": "Agent_XXP",
+                "obstacles": [
+                    {
+                        "name": "1_SingleBlock",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "2_DoubleBlock",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "2_DoubleBlockSpike",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "3_TripleBlock",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "4_QuadBlock",
+                        "successes": 0,
+                        "failures": 0
+                    }
+                ],
+                "scores": []
+            },
+            {
+                "profileName": "Agent_XXF",
+                "obstacles": [
+                    {
+                        "name": "1_SingleBlock",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "2_DoubleBlock",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "2_DoubleBlockSpike",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "3_TripleBlock",
+                        "successes": 0,
+                        "failures": 0
+                    },
+                    {
+                        "name": "4_QuadBlock",
+                        "successes": 0,
+                        "failures": 0
+                    }
+                ],
+                "scores": []
+            }
+        ]
+    }
+}

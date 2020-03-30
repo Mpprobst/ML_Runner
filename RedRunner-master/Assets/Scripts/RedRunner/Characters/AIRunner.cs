@@ -18,7 +18,7 @@ namespace RedRunner.Characters
 
         private float maxInputVal = 1f;
         public float reactionTime = 0.001f; // used by coroutines to simulate think speed
-        private float lookDistance = 1f;
+        private float lookDistance = 1.5f;
 
         // used to find next block
         public BlockFinder blockFinder;
@@ -30,7 +30,7 @@ namespace RedRunner.Characters
 
 
         public float inputVal = 0f;  // modified by other functions, but its value is constantly fed to Move()
-        protected GameObject nextBlock; // 
+        protected Block nextBlock; // 
 
         public override void Reset()
         {
@@ -49,7 +49,11 @@ namespace RedRunner.Characters
 
         // Start is called before the first frame update
         protected virtual void Start()
-        {
+        { 
+            if (predictive)
+            {
+                lookDistance = 1f;
+            }
             Reset();
         }
 
@@ -57,6 +61,11 @@ namespace RedRunner.Characters
         protected override void Update()
         {
             base.Update();
+
+            if (currBlock == nextBlock)
+            {
+                nextBlock = null;
+            }
 
             if (predictive)
             {
@@ -98,14 +107,14 @@ namespace RedRunner.Characters
             while (true)
             {
                 float minDist = 100f;
-                if (blockFinder.blocks != null)
+                if (blockFinder.blocks != null && m_GroundCheck.IsGrounded)
                 {
                     foreach (Block block in blockFinder.blocks)
                     {
                         float distance = Vector3.Distance(transform.localPosition, block.transform.localPosition);
                         if (distance < minDist)
                         {
-                            nextBlock = block.gameObject;
+                            nextBlock = block;
                         }
                     }
                 }
@@ -194,14 +203,30 @@ namespace RedRunner.Characters
                 potentialDist = potentialDist / 2f;
             }
 
-            Debug.Log("traveled " + traveled + " from jump. Can move " + potentialDist + " more.");
+            //Debug.Log("traveled " + traveled + " from jump. Can move " + potentialDist + " more.");
 
-            Vector2 rayStart = new Vector2(jumpPosition + traveled + potentialDist, gameObject.transform.position.y);
+            float goalDistance = 1000f;
+            if (nextBlock)
+                goalDistance = (nextBlock.transform.position.x - transform.position.x) + (nextBlock.originalWidth / 2f);
+
+            Debug.Log("goalDist = " + goalDistance + " potentialDist = " + potentialDist);
+
+            //Vector2 rayStart = new Vector2(jumpPosition + traveled + potentialDist, gameObject.transform.position.y);
+            Vector2 rayStart = new Vector2(transform.position.x + goalDistance, gameObject.transform.position.y);
             RaycastHit2D hit = Physics2D.Raycast(rayStart, new Vector2(0, -1), 10f, LayerMask.GetMask(GROUND_LAYER_NAME));
             Debug.DrawRay(rayStart, new Vector2(0, -1) * 10f);
             bool edgeDetected = hit != null && hit.collider != null && hit.collider.CompareTag(GROUND_TAG);
             bool enemyDetected = hit != null && hit.collider != null && hit.collider.CompareTag(ENEMY_TAG);
 
+            if (potentialDist < goalDistance)
+            {
+                inputVal += 0.01f;
+            }
+            else if (potentialDist > goalDistance)
+            {
+                inputVal -= 0.01f;
+            }
+            /*
             GameObject collidedBlock = null;
             if (hit.collider)
             {
@@ -217,9 +242,11 @@ namespace RedRunner.Characters
             {
                 inputVal += 0.01f;
             }
-
+            */
             if (inputVal < 0)
                 inputVal = 0;
+            else if (inputVal > 1)
+                inputVal = 1;
 
         }
 
