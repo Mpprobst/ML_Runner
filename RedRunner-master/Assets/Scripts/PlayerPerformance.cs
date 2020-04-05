@@ -117,7 +117,11 @@ namespace RedRunner.TerrainGeneration
                 // player advanced to next block, so it was a success
                 string blockName = "";
                 if (currentBlock)
-                    blockName = currentBlock.name.Replace("(Clone)", "");
+                {
+                    //blockName = currentBlock.name.Replace("(Clone)", "");
+                    blockName = currentBlock.GetName();
+
+                }
 
                 for (int i = 0; i < playerStats.obstacles.Length; i++)
                 {
@@ -180,7 +184,7 @@ namespace RedRunner.TerrainGeneration
             float timeFactor = (avgBlockTime - 1.25f) / 4;
 
             difficultyFactor = 0.75f * distanceFactor + (speedFactor - timeFactor) * 0.25f;
-
+            //difficultyFactor = distanceFactor;
             if (difficultyFactor > 1f)
             {
                 difficultyFactor = 1f;
@@ -221,7 +225,6 @@ namespace RedRunner.TerrainGeneration
 
         private void PlayerDied()
         {
-
             playerStats.scores.Add( Mathf.FloorToInt(player.transform.position.x - player.StartingPos) );
             if (playerStats.scores.Count >= 100)
             {
