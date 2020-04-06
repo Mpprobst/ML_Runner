@@ -6,8 +6,6 @@ using RedRunner.Characters;
 
 namespace RedRunner.TerrainGeneration
 {
-    // m_Settings.MiddleBlocks[0].m_Probability = 1f;
-
     /// <summary>
     /// This script observes the player and determines how well they are performing
     /// </summary>
@@ -132,16 +130,6 @@ namespace RedRunner.TerrainGeneration
                         playerStats.obstacles[4].successes += 1;
 
                 }
-
-                /*
-                for (int i = 0; i < playerStats.obstacles.Length; i++)
-                {
-                    
-                    if (playerStats.obstacles[i].name == blockName)
-                    {
-                        playerStats.obstacles[i].successes += 1;
-                    }
-                }*/
 
                 UpdateDifficulty();
 
@@ -273,17 +261,6 @@ namespace RedRunner.TerrainGeneration
                 if (currentBlock.HasEnemy)
                     playerStats.obstacles[4].failures += 1;
             }
-
-            /*
-            for (int i = 0; i < playerStats.obstacles.Length; i++)
-            {
-                if (playerStats.obstacles[i].name == blockName)
-                {
-                    playerStats.obstacles[i].failures += 1;
-                    Debug.Log("Died on " + blockName);
-                    SaveStats();
-                }
-            }*/
         }
 
         private void SaveStats()
