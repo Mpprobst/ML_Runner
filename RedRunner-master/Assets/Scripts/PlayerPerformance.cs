@@ -118,22 +118,9 @@ namespace RedRunner.TerrainGeneration
                 if (currentBlock)
                 {
                     blockName = currentBlock.name.Replace("(Clone)", "");
-                    Debug.Log(blockName + currentBlock.FarJump.ToString() + currentBlock.HighJump.ToString() + currentBlock.FarJump.ToString() + currentBlock.Below.ToString() + currentBlock.HasEnemy.ToString());
-                    blockName = currentBlock.GetName();
-                    if (currentBlock.FarJump)
-                        playerStats.obstacles[0].successes += 1;
-                    if (currentBlock.HighJump)
-                        playerStats.obstacles[1].successes += 1;
-                    if (currentBlock.Below)
-                        playerStats.obstacles[2].successes += 1;
-                    if (currentBlock.WideBlock)
-                        playerStats.obstacles[3].successes += 1;
-                    if (currentBlock.HasEnemy)
-                        playerStats.obstacles[4].successes += 1;
-
                 }
-
-                /*
+            
+                
                 for (int i = 0; i < playerStats.obstacles.Length; i++)
                 {
                     
@@ -141,7 +128,7 @@ namespace RedRunner.TerrainGeneration
                     {
                         playerStats.obstacles[i].successes += 1;
                     }
-                }*/
+                }
 
                 UpdateDifficulty();
 
@@ -260,21 +247,9 @@ namespace RedRunner.TerrainGeneration
             if (currentBlock)
             {
                 blockName = closestBlock.name.Replace("(Clone)", "");
-                Debug.Log("died on "+blockName + currentBlock.FarJump.ToString() + currentBlock.HighJump.ToString() + currentBlock.FarJump.ToString() + currentBlock.Below.ToString() + currentBlock.HasEnemy.ToString());
-
-                if (currentBlock.FarJump)
-                    playerStats.obstacles[0].failures += 1;
-                if (currentBlock.HighJump)
-                    playerStats.obstacles[1].failures += 1;
-                if (currentBlock.Below)
-                    playerStats.obstacles[2].failures += 1;
-                if (currentBlock.WideBlock)
-                    playerStats.obstacles[3].failures += 1;
-                if (currentBlock.HasEnemy)
-                    playerStats.obstacles[4].failures += 1;
             }
 
-            /*
+            
             for (int i = 0; i < playerStats.obstacles.Length; i++)
             {
                 if (playerStats.obstacles[i].name == blockName)
@@ -283,7 +258,7 @@ namespace RedRunner.TerrainGeneration
                     Debug.Log("Died on " + blockName);
                     SaveStats();
                 }
-            }*/
+            }
         }
 
         private void SaveStats()

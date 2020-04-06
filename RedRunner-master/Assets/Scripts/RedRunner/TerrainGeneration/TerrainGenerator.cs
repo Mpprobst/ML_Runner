@@ -417,23 +417,6 @@ namespace RedRunner.TerrainGeneration
             block.Width = blockWidth + extraWidth;
             position = block.transform.position;
 
-            if (extraWidth > m_MaxExtraWidth / 2f)
-                block.FarJump = true;
-            else
-                block.FarJump = false;
-
-            if (extraHeight > m_MaxExtraHeight / 2f)
-                block.HighJump = true;
-            else
-                block.HighJump = false;
-            if (m_LastBlock != null)
-            {
-                if (m_LastBlock.transform.position.y - position.y > 0f)
-                    block.Below = true;
-                else
-                    block.Below = false;
-            }
-
             m_PreviousX = m_CurrentX;
 			m_CurrentX += block.Width;
 			m_Blocks.Add ( position, block );

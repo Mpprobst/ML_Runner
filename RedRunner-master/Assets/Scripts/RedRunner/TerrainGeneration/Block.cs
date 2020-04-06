@@ -8,14 +8,6 @@ namespace RedRunner.TerrainGeneration
 	public abstract class Block : MonoBehaviour
 	{
 
-        [Header("Classifiers")]
-        public bool FarJump; // False indicates the jump is < 1/2 the max jump distance. True is the latter
-        public bool HighJump; // True indicates the jump is > 1/2 the max jump height. False is the latter
-        public bool Below; // true if the block is lower than the previous
-        public bool WideBlock; // True for blocks with 3 and 4 tiles. False for blocks with 1 and 2 tiles. set in inspector
-        public bool HasEnemy; // self-explanatory. set in inspector
-        public string classString;
-
 		[SerializeField]
 		protected float m_Width;
         public float originalWidth;
@@ -51,37 +43,6 @@ namespace RedRunner.TerrainGeneration
 		{
 			
 		}
-
-        public string GetName()
-        {
-            name = "";
-            if (FarJump)
-                name += "F";
-            else
-                name += "S";
-
-            if (HighJump)
-                name += "H";
-            else
-                name += "L";
-
-            if (Below)
-                name += "B";
-            else
-                name += "A";
-
-            if (WideBlock)
-                name += "W";
-            else
-                name += "N";
-
-            if (HasEnemy)
-                name += "E";
-            else
-                name += "_";
-
-            return name;
-        }
 
 	}
 
