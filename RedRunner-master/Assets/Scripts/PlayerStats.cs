@@ -81,6 +81,7 @@ namespace RedRunner.TerrainGeneration
 
             // Far <-> High
             // Below -> !High
+            /*
             obList.Add(new Obstacle(true,false,false,false,true));
             obList.Add(new Obstacle(true,false,false,true,true));
             obList.Add(new Obstacle(true,false,true,false,true));
@@ -108,7 +109,12 @@ namespace RedRunner.TerrainGeneration
 
             obList.Add(new Obstacle(false, true, false, true, false));
             obList.Add(new Obstacle(false, true, false, false, false));
-
+            */
+            obList.Add(new Obstacle("far"));
+            obList.Add(new Obstacle("high"));
+            obList.Add(new Obstacle("below"));
+            obList.Add(new Obstacle("wide"));
+            obList.Add(new Obstacle("enemy"));
             obstacles = new Obstacle[obList.Count];
 
             for (int i = 0; i < obList.Count; i++)

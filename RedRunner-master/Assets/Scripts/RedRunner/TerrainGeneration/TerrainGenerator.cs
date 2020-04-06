@@ -428,7 +428,6 @@ namespace RedRunner.TerrainGeneration
                 block.HighJump = false;
             if (m_LastBlock != null)
             {
-                Debug.Log("last y = " + m_LastBlock.transform.position.y + " new y = " + position.y);
                 if (m_LastBlock.transform.position.y - position.y > 0f)
                     block.Below = true;
                 else

@@ -101,7 +101,6 @@ namespace RedRunner.TerrainGeneration
             if (landBlock != currentBlock)
             {
                 player.currBlock = landBlock;
-                Debug.Log("landed");
                 if (blockTimes.Count > 10)
                 {
                     blockTimes.Dequeue();
@@ -118,18 +117,31 @@ namespace RedRunner.TerrainGeneration
                 string blockName = "";
                 if (currentBlock)
                 {
-                    //blockName = currentBlock.name.Replace("(Clone)", "");
+                    blockName = currentBlock.name.Replace("(Clone)", "");
+                    Debug.Log(blockName + currentBlock.FarJump.ToString() + currentBlock.HighJump.ToString() + currentBlock.FarJump.ToString() + currentBlock.Below.ToString() + currentBlock.HasEnemy.ToString());
                     blockName = currentBlock.GetName();
+                    if (currentBlock.FarJump)
+                        playerStats.obstacles[0].successes += 1;
+                    if (currentBlock.HighJump)
+                        playerStats.obstacles[1].successes += 1;
+                    if (currentBlock.Below)
+                        playerStats.obstacles[2].successes += 1;
+                    if (currentBlock.WideBlock)
+                        playerStats.obstacles[3].successes += 1;
+                    if (currentBlock.HasEnemy)
+                        playerStats.obstacles[4].successes += 1;
 
                 }
 
+                /*
                 for (int i = 0; i < playerStats.obstacles.Length; i++)
                 {
+                    
                     if (playerStats.obstacles[i].name == blockName)
                     {
                         playerStats.obstacles[i].successes += 1;
                     }
-                }
+                }*/
 
                 UpdateDifficulty();
 
@@ -146,7 +158,7 @@ namespace RedRunner.TerrainGeneration
 
             avgBlockTime = total / blockTimes.Count;
 
-            Debug.Log("avg time on block = " + avgBlockTime);
+            //Debug.Log("avg time on block = " + avgBlockTime);
 
         }
 
@@ -218,7 +230,7 @@ namespace RedRunner.TerrainGeneration
                 avgSpeed = total / speedSamples.Count;
 
                 //avgSpeed = (player.transform.position.x - player.StartingPos) / (Time.time - startTime);
-                Debug.Log("average speed " + avgSpeed);
+                //Debug.Log("average speed " + avgSpeed);
                 yield return new WaitForSeconds(1f);
             }
         }
@@ -246,8 +258,23 @@ namespace RedRunner.TerrainGeneration
             string blockName = "";
 
             if (currentBlock)
+            {
                 blockName = closestBlock.name.Replace("(Clone)", "");
+                Debug.Log("died on "+blockName + currentBlock.FarJump.ToString() + currentBlock.HighJump.ToString() + currentBlock.FarJump.ToString() + currentBlock.Below.ToString() + currentBlock.HasEnemy.ToString());
 
+                if (currentBlock.FarJump)
+                    playerStats.obstacles[0].failures += 1;
+                if (currentBlock.HighJump)
+                    playerStats.obstacles[1].failures += 1;
+                if (currentBlock.Below)
+                    playerStats.obstacles[2].failures += 1;
+                if (currentBlock.WideBlock)
+                    playerStats.obstacles[3].failures += 1;
+                if (currentBlock.HasEnemy)
+                    playerStats.obstacles[4].failures += 1;
+            }
+
+            /*
             for (int i = 0; i < playerStats.obstacles.Length; i++)
             {
                 if (playerStats.obstacles[i].name == blockName)
@@ -256,7 +283,7 @@ namespace RedRunner.TerrainGeneration
                     Debug.Log("Died on " + blockName);
                     SaveStats();
                 }
-            }
+            }*/
         }
 
         private void SaveStats()

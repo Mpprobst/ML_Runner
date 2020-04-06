@@ -86,7 +86,7 @@ namespace RedRunner.Characters
                 }
                 else
                 {
-                    Debug.Log("stopping precise movement");
+                    //Debug.Log("stopping precise movement");
                     preciseStarted = false;
                     inputVal = 1f;
                     //StopCoroutine(PreciseMovementRoutine());
@@ -209,7 +209,7 @@ namespace RedRunner.Characters
             if (nextBlock)
                 goalDistance = (nextBlock.transform.position.x - transform.position.x) + (nextBlock.originalWidth / 2f);
 
-            Debug.Log("goalDist = " + goalDistance + " potentialDist = " + potentialDist);
+            //Debug.Log("goalDist = " + goalDistance + " potentialDist = " + potentialDist);
 
             //Vector2 rayStart = new Vector2(jumpPosition + traveled + potentialDist, gameObject.transform.position.y);
             Vector2 rayStart = new Vector2(transform.position.x + goalDistance, gameObject.transform.position.y);
