@@ -120,11 +120,11 @@ namespace RedRunner.TerrainGeneration
                     blockName = currentBlock.GetName();
                     if (currentBlock.FarJump)
                         playerStats.obstacles[0].successes += 1;
-                    if (currentBlock.HighJump)
+                    if (currentBlock.HighJump && !currentBlock.Below)
                         playerStats.obstacles[1].successes += 1;
                     if (currentBlock.Below)
                         playerStats.obstacles[2].successes += 1;
-                    if (currentBlock.WideBlock)
+                    if (currentBlock.Narrow)
                         playerStats.obstacles[3].successes += 1;
                     if (currentBlock.HasEnemy)
                         playerStats.obstacles[4].successes += 1;
@@ -252,11 +252,11 @@ namespace RedRunner.TerrainGeneration
 
                 if (currentBlock.FarJump)
                     playerStats.obstacles[0].failures += 1;
-                if (currentBlock.HighJump)
+                if (currentBlock.HighJump && !currentBlock.Below)
                     playerStats.obstacles[1].failures += 1;
                 if (currentBlock.Below)
                     playerStats.obstacles[2].failures += 1;
-                if (currentBlock.WideBlock)
+                if (currentBlock.Narrow)
                     playerStats.obstacles[3].failures += 1;
                 if (currentBlock.HasEnemy)
                     playerStats.obstacles[4].failures += 1;

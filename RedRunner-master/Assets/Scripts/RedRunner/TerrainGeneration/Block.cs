@@ -12,7 +12,7 @@ namespace RedRunner.TerrainGeneration
         public bool FarJump; // False indicates the jump is < 1/2 the max jump distance. True is the latter
         public bool HighJump; // True indicates the jump is > 1/2 the max jump height. False is the latter
         public bool Below; // true if the block is lower than the previous
-        public bool WideBlock; // True for blocks with 3 and 4 tiles. False for blocks with 1 and 2 tiles. set in inspector
+        public bool Narrow; // false for blocks with 3 and 4 tiles. true for blocks with 1 and 2 tiles. set in inspector
         public bool HasEnemy; // self-explanatory. set in inspector
         public string classString;
 
@@ -70,10 +70,10 @@ namespace RedRunner.TerrainGeneration
             else
                 name += "A";
 
-            if (WideBlock)
-                name += "W";
-            else
+            if (Narrow)
                 name += "N";
+            else
+                name += "W";
 
             if (HasEnemy)
                 name += "E";

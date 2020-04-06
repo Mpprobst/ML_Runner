@@ -70,7 +70,7 @@ namespace RedRunner.TerrainGeneration
             obList.Add(new Obstacle("far"));
             obList.Add(new Obstacle("high"));
             obList.Add(new Obstacle("below"));
-            obList.Add(new Obstacle("wide"));
+            obList.Add(new Obstacle("narrow"));
             obList.Add(new Obstacle("enemy"));
             obstacles = new Obstacle[obList.Count];
 
