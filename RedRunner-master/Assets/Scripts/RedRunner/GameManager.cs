@@ -246,7 +246,7 @@ namespace RedRunner
             {
 
                 // uncomment to have AI run over and over
-                GameObject.FindObjectOfType<RedRunner.UI.EndScreen>().ResetButton.onClick.Invoke();
+                //GameObject.FindObjectOfType<RedRunner.UI.EndScreen>().ResetButton.onClick.Invoke();
 
             }
         }
