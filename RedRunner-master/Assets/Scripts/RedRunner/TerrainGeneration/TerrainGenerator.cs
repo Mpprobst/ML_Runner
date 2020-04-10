@@ -365,6 +365,7 @@ namespace RedRunner.TerrainGeneration
 			}
 			blockPrefab.PreGenerate ( this );
 			Block block = Instantiate<Block> ( blockPrefab, position, Quaternion.identity );
+            Debug.Log("NEW BLOCK GENERATED " + block.GetName());
 
             float maxRunningDistance = block.Width;
             block.originalWidth = block.Width;
@@ -387,8 +388,8 @@ namespace RedRunner.TerrainGeneration
 
 
             // use block probabilities
-            float randomNeg = Random.Range(0, blockProbs[2]);
-
+            float randomNeg = Random.Range(0, blockProbs[2]+1);
+            Debug.Log("below prob = " + blockProbs[2]);
             if (randomNeg < blockProbs[2])
             {
                 randomNeg = -1;
@@ -400,20 +401,21 @@ namespace RedRunner.TerrainGeneration
             // now, i can probably use the block probablilites
 
             float total = blockProbs[0] + blockProbs[1];
-
             float random = Random.Range(0, total);
             if (random < blockProbs[0])
             {
+                Debug.Log("high prob = " + blockProbs[1]);
                 CheckX(ref currentMaxWidth, ref extraWidth, ref extraHeight);
             }
             else
             {
+                Debug.Log("far prob = " + blockProbs[0]);
                 CheckY(ref currentMaxWidth, ref extraWidth, ref extraHeight);
             }
 
             if (extraWidth < m_MinExtraWidth)
             {
-                Debug.Log("was min width");
+                //Debug.Log("was min width");
                 extraWidth = m_MinExtraWidth;
             }
 
@@ -424,6 +426,7 @@ namespace RedRunner.TerrainGeneration
             {
                 previousHeight = m_LastBlock.transform.position.y;
             }
+
             block.transform.position = new Vector3(block.transform.position.x, Mathf.Clamp(previousHeight + extraHeight, m_AbsMinHeight, m_AbsMaxHeight), 0f);
 
             //Debug.Log("extraWidth = " + extraWidth + " extraHeight = " + extraHeight );

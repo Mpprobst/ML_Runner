@@ -156,31 +156,44 @@ namespace RedRunner.TerrainGeneration
             for (int i = 0; i < 3; i++)
             {
                 var stat = playerStats.obstacles[i];
-                terrain.blockProbs[i] = Mathf.Abs((stat.successes - (stat.failures * (0.5f - terrain.difficultyFactor))) / stat.successes);
+                if (stat.successes != 0)
+                    terrain.blockProbs[i] = Mathf.Abs((stat.successes - (stat.failures * (0.5f - terrain.difficultyFactor))) / stat.successes);
+                else
+                    terrain.blockProbs[i] = 1;
             }
-            for (int i = 3; i < playerStats.obstacles.Length; i++)
+
+            foreach (var blockData in terrain.m_Settings.m_MiddleBlocks)
             {
-                var stat = playerStats.obstacles[i];
-                foreach (var blockData in terrain.m_Settings.m_MiddleBlocks)
+                // hard code to the max. oh god so bad
+                int totalSuccess = 0;
+                int totalFail = 0;
+
+                if (blockData.Narrow)
                 {
-                    // hard code to the max. oh god so bad
-                    if (blockData.HasEnemy && i == 3 || (blockData.Narrow && i == 4))
-                    {
-                        if (stat.successes != 0)
-                        {
-                            //blockData.m_Probability = (stat.successes - (stat.failures * (0.4f - terrain.difficultyFactor)) ) / stat.successes;
-                            blockData.m_Probability = Mathf.Abs( (stat.successes - (stat.failures * (0.5f - terrain.difficultyFactor))) / stat.successes ) ;
-                        }
-                        else
-                        {
-                            blockData.m_Probability = 1f;
-                        }
-                        Debug.Log("block: " + blockData.name + " has probability: " + blockData.m_Probability);
-                        break;
-                    }
+                    totalSuccess += playerStats.obstacles[3].successes;
+                    totalFail += playerStats.obstacles[3].failures;
                 }
+                if (blockData.HasEnemy)
+                {
+                    totalSuccess += playerStats.obstacles[4].successes;
+                    totalFail += playerStats.obstacles[4].failures;
+                }
+
+                if (totalSuccess != 0)
+                {
+                    //blockData.m_Probability = (stat.successes - (stat.failures * (0.4f - terrain.difficultyFactor)) ) / stat.successes;
+                    blockData.m_Probability = Mathf.Abs((totalSuccess - (totalFail * (0.5f - terrain.difficultyFactor))) / totalSuccess);
+                }
+                else
+                {
+                    blockData.m_Probability = 1f;
+                }
+                Debug.Log("block: " + blockData.name + " has probability: " + blockData.m_Probability);
+                break;
             }
+
         }
+        
 
         private void UpdateDifficulty()
         {
@@ -256,17 +269,17 @@ namespace RedRunner.TerrainGeneration
             if (currentBlock)
             {
                 blockName = closestBlock.name.Replace("(Clone)", "");
-                Debug.Log("died on "+blockName + currentBlock.FarJump.ToString() + currentBlock.HighJump.ToString() + currentBlock.FarJump.ToString() + currentBlock.Below.ToString() + currentBlock.HasEnemy.ToString());
+                Debug.Log("died on "+ blockName + closestBlock.FarJump.ToString() + closestBlock.HighJump.ToString() + closestBlock.Below.ToString() + closestBlock.Narrow.ToString() + closestBlock.HasEnemy.ToString());
 
-                if (currentBlock.FarJump)
+                if (closestBlock.FarJump)
                     playerStats.obstacles[0].failures += 1;
-                if (currentBlock.HighJump && !currentBlock.Below)
+                if (closestBlock.HighJump && !closestBlock.Below)
                     playerStats.obstacles[1].failures += 1;
-                if (currentBlock.Below)
+                if (closestBlock.Below)
                     playerStats.obstacles[2].failures += 1;
-                if (currentBlock.Narrow)
+                if (closestBlock.Narrow)
                     playerStats.obstacles[3].failures += 1;
-                if (currentBlock.HasEnemy)
+                if (closestBlock.HasEnemy)
                     playerStats.obstacles[4].failures += 1;
             }
         }
