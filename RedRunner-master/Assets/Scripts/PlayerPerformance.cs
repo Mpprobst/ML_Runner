@@ -152,11 +152,19 @@ namespace RedRunner.TerrainGeneration
 
         private void UpdateBlockProbabilities()
         {
-            foreach (var stat in playerStats.obstacles)
+
+            for (int i = 0; i < 3; i++)
             {
+                var stat = playerStats.obstacles[i];
+                terrain.blockProbs[i] = Mathf.Abs((stat.successes - (stat.failures * (0.5f - terrain.difficultyFactor))) / stat.successes);
+            }
+            for (int i = 3; i < playerStats.obstacles.Length; i++)
+            {
+                var stat = playerStats.obstacles[i];
                 foreach (var blockData in terrain.m_Settings.m_MiddleBlocks)
                 {
-                    if (stat.name == blockData.name)
+                    // hard code to the max. oh god so bad
+                    if (blockData.HasEnemy && i == 3 || (blockData.Narrow && i == 4))
                     {
                         if (stat.successes != 0)
                         {

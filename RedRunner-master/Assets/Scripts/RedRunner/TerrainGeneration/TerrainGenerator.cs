@@ -7,42 +7,42 @@ using RedRunner.Characters;
 namespace RedRunner.TerrainGeneration
 {
 
-	public abstract class TerrainGenerator : MonoBehaviour
-	{
+    public abstract class TerrainGenerator : MonoBehaviour
+    {
 
-		private static TerrainGenerator m_Singleton;
+        private static TerrainGenerator m_Singleton;
 
-		public static TerrainGenerator Singleton
-		{
-			get
-			{
-				return m_Singleton;
-			}
-		}
+        public static TerrainGenerator Singleton
+        {
+            get
+            {
+                return m_Singleton;
+            }
+        }
 
-		protected Dictionary<Vector3, Block> m_Blocks;
-		protected Dictionary<Vector3, BackgroundBlock> m_BackgroundBlocks;
-		protected BackgroundLayer[] m_BackgroundLayers;
-		protected float m_PreviousX;
-		protected float m_CurrentX;
-		protected float m_FathestBackgroundX;
-		[SerializeField]
-		public TerrainGenerationSettings m_Settings;
-		protected int m_GeneratedStartBlocksCount;
-		protected int m_GeneratedMiddleBlocksCount;
-		protected int m_GeneratedEndBlocksCount;
-		[SerializeField]
-		protected float m_DestroyRange = 100f;
-		[SerializeField]
-		protected float m_GenerateRange = 100f;
-		[SerializeField]
-		protected float m_BackgroundGenerateRange = 200f;
-		[SerializeField]
-		protected Character m_Character;
-		protected Block m_LastBlock;
-		protected BackgroundBlock m_LastBackgroundBlock;
-		protected float m_RemoveTime = 0f;
-		protected bool m_Reset = false;
+        protected Dictionary<Vector3, Block> m_Blocks;
+        protected Dictionary<Vector3, BackgroundBlock> m_BackgroundBlocks;
+        protected BackgroundLayer[] m_BackgroundLayers;
+        protected float m_PreviousX;
+        protected float m_CurrentX;
+        protected float m_FathestBackgroundX;
+        [SerializeField]
+        public TerrainGenerationSettings m_Settings;
+        protected int m_GeneratedStartBlocksCount;
+        protected int m_GeneratedMiddleBlocksCount;
+        protected int m_GeneratedEndBlocksCount;
+        [SerializeField]
+        protected float m_DestroyRange = 100f;
+        [SerializeField]
+        protected float m_GenerateRange = 100f;
+        [SerializeField]
+        protected float m_BackgroundGenerateRange = 200f;
+        [SerializeField]
+        protected Character m_Character;
+        protected Block m_LastBlock;
+        protected BackgroundBlock m_LastBackgroundBlock;
+        protected float m_RemoveTime = 0f;
+        protected bool m_Reset = false;
 
         // Params for spawning blocks with different separations and heights
         public float m_MinExtraWidth = 1f;
@@ -55,32 +55,41 @@ namespace RedRunner.TerrainGeneration
         [Range(0.15f, 1f)]
         public float difficultyFactor = 0.15f;
 
+        // block type probabilities
+        public float[] blockProbs;
+
         public float PreviousX
-		{
-			get
-			{
-				return m_PreviousX;
-			}
-		}
+        {
+            get
+            {
+                return m_PreviousX;
+            }
+        }
 
-		public float CurrentX
-		{
-			get
-			{
-				return m_CurrentX;
-			}
-		}
+        public float CurrentX
+        {
+            get
+            {
+                return m_CurrentX;
+            }
+        }
 
-		public TerrainGenerationSettings Settings
-		{
-			get
-			{
-				return m_Settings;
-			}
-		}
+        public TerrainGenerationSettings Settings
+        {
+            get
+            {
+                return m_Settings;
+            }
+        }
 
-		protected virtual void Awake ()
-		{
+        protected virtual void Awake()
+        {
+            blockProbs = new float[3];
+            for (int i = 0; i < 3; i++)
+            {
+                blockProbs[i] = 1f;
+            }
+
             m_Character = GameObject.FindObjectOfType<Character>();
 			if ( m_Singleton != null )
 			{
@@ -376,9 +385,11 @@ namespace RedRunner.TerrainGeneration
             float randomHeightFactor = GetDifficultyProbablilty();
             float extraWidth = randomWidthFactor * (currentMaxWidth - m_MinExtraWidth);
 
-            int randomNeg = Random.Range(0, 2);
 
-            if (randomNeg == 0)
+            // use block probabilities
+            float randomNeg = Random.Range(0, blockProbs[2]);
+
+            if (randomNeg < blockProbs[2])
             {
                 randomNeg = -1;
             }
@@ -386,14 +397,18 @@ namespace RedRunner.TerrainGeneration
             float extraHeight = randomHeightFactor * (m_MaxExtraHeight - m_MinExtraHeight) * randomNeg;
 
             // randomize x or y dependency
-            int random = Random.Range(0, 2);
-            if (random == 0)
+            // now, i can probably use the block probablilites
+
+            float total = blockProbs[0] + blockProbs[1];
+
+            float random = Random.Range(0, total);
+            if (random < blockProbs[0])
             {
-                CheckY(ref currentMaxWidth, ref extraWidth, ref extraHeight);
+                CheckX(ref currentMaxWidth, ref extraWidth, ref extraHeight);
             }
             else
             {
-                CheckX(ref currentMaxWidth, ref extraWidth, ref extraHeight);
+                CheckY(ref currentMaxWidth, ref extraWidth, ref extraHeight);
             }
 
             if (extraWidth < m_MinExtraWidth)
