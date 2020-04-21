@@ -157,14 +157,13 @@ namespace RedRunner.TerrainGeneration
             {
                 var stat = playerStats.obstacles[i];
                 if (stat.successes != 0)
-                    terrain.blockProbs[i] = Mathf.Abs((stat.successes - (stat.failures * (0.5f - terrain.difficultyFactor))) / stat.successes);
+                    terrain.blockProbs[i] = Mathf.Abs(terrain.difficultyFactor * (stat.successes) / (stat.successes + stat.failures));
                 else
                     terrain.blockProbs[i] = 1;
             }
 
             foreach (var blockData in terrain.m_Settings.m_MiddleBlocks)
             {
-                // hard code to the max. oh god so bad
                 int totalSuccess = 0;
                 int totalFail = 0;
 

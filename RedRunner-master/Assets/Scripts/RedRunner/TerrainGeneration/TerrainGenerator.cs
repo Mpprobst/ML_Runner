@@ -386,7 +386,6 @@ namespace RedRunner.TerrainGeneration
             float randomHeightFactor = GetDifficultyProbablilty();
             float extraWidth = randomWidthFactor * (currentMaxWidth - m_MinExtraWidth);
 
-
             // use block probabilities
             float randomNeg = Random.Range(0, blockProbs[2]+1);
             Debug.Log("below prob = " + blockProbs[2]);
@@ -404,13 +403,13 @@ namespace RedRunner.TerrainGeneration
             float random = Random.Range(0, total);
             if (random < blockProbs[0])
             {
-                Debug.Log("high prob = " + blockProbs[1]);
-                CheckX(ref currentMaxWidth, ref extraWidth, ref extraHeight);
+                Debug.Log("high prob = " + blockProbs[0]);
+                CheckY(ref currentMaxWidth, ref extraWidth, ref extraHeight);
             }
             else
             {
-                Debug.Log("far prob = " + blockProbs[0]);
-                CheckY(ref currentMaxWidth, ref extraWidth, ref extraHeight);
+                Debug.Log("far prob = " + blockProbs[1]);
+                CheckX(ref currentMaxWidth, ref extraWidth, ref extraHeight);
             }
 
             if (extraWidth < m_MinExtraWidth)
