@@ -7,7 +7,7 @@ namespace RedRunner.TerrainGeneration
 {
     public class SaveFile : MonoBehaviour
     {
-        public string fileName = "game_data.json";
+        public string fileName = "game_data_features.json";
         public string path;
         public PlayerStats[] initialData;
 
@@ -22,7 +22,7 @@ namespace RedRunner.TerrainGeneration
 
         public void Initialize()
         {
-            fileName = "game_data.json";
+            fileName = "game_data_features.json";
             path = Application.persistentDataPath + "/" + fileName;
             Debug.Log(path);
         }

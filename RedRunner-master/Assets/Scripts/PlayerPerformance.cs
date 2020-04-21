@@ -6,8 +6,6 @@ using RedRunner.Characters;
 
 namespace RedRunner.TerrainGeneration
 {
-    // m_Settings.MiddleBlocks[0].m_Probability = 1f;
-
     /// <summary>
     /// This script observes the player and determines how well they are performing
     /// </summary>
@@ -101,7 +99,6 @@ namespace RedRunner.TerrainGeneration
             if (landBlock != currentBlock)
             {
                 player.currBlock = landBlock;
-                Debug.Log("landed");
                 if (blockTimes.Count > 10)
                 {
                     blockTimes.Dequeue();
@@ -117,14 +114,21 @@ namespace RedRunner.TerrainGeneration
                 // player advanced to next block, so it was a success
                 string blockName = "";
                 if (currentBlock)
-                    blockName = currentBlock.name.Replace("(Clone)", "");
-
-                for (int i = 0; i < playerStats.obstacles.Length; i++)
                 {
-                    if (playerStats.obstacles[i].name == blockName)
-                    {
-                        playerStats.obstacles[i].successes += 1;
-                    }
+                    blockName = currentBlock.name.Replace("(Clone)", "");
+                    Debug.Log(blockName + currentBlock.FarJump.ToString() + currentBlock.HighJump.ToString() + currentBlock.FarJump.ToString() + currentBlock.Below.ToString() + currentBlock.HasEnemy.ToString());
+                    blockName = currentBlock.GetName();
+                    if (currentBlock.FarJump)
+                        playerStats.obstacles[0].successes += 1;
+                    if (currentBlock.HighJump && !currentBlock.Below)
+                        playerStats.obstacles[1].successes += 1;
+                    if (currentBlock.Below)
+                        playerStats.obstacles[2].successes += 1;
+                    if (currentBlock.Narrow)
+                        playerStats.obstacles[3].successes += 1;
+                    if (currentBlock.HasEnemy)
+                        playerStats.obstacles[4].successes += 1;
+
                 }
 
                 UpdateDifficulty();
@@ -142,33 +146,53 @@ namespace RedRunner.TerrainGeneration
 
             avgBlockTime = total / blockTimes.Count;
 
-            Debug.Log("avg time on block = " + avgBlockTime);
+            //Debug.Log("avg time on block = " + avgBlockTime);
 
         }
 
         private void UpdateBlockProbabilities()
         {
-            foreach (var stat in playerStats.obstacles)
+
+            for (int i = 0; i < 3; i++)
             {
-                foreach (var blockData in terrain.m_Settings.m_MiddleBlocks)
-                {
-                    if (stat.name == blockData.name)
-                    {
-                        if (stat.successes != 0)
-                        {
-                            //blockData.m_Probability = (stat.successes - (stat.failures * (0.4f - terrain.difficultyFactor)) ) / stat.successes;
-                            blockData.m_Probability = Mathf.Abs( (stat.successes - (stat.failures * (0.5f - terrain.difficultyFactor))) / stat.successes ) ;
-                        }
-                        else
-                        {
-                            blockData.m_Probability = 1f;
-                        }
-                        Debug.Log("block: " + blockData.name + " has probability: " + blockData.m_Probability);
-                        break;
-                    }
-                }
+                var stat = playerStats.obstacles[i];
+                if (stat.successes != 0)
+                    terrain.blockProbs[i] = Mathf.Abs(terrain.difficultyFactor * (stat.successes) / (stat.successes + stat.failures));
+                else
+                    terrain.blockProbs[i] = 1;
             }
+
+            foreach (var blockData in terrain.m_Settings.m_MiddleBlocks)
+            {
+                int totalSuccess = 0;
+                int totalFail = 0;
+
+                if (blockData.Narrow)
+                {
+                    totalSuccess += playerStats.obstacles[3].successes;
+                    totalFail += playerStats.obstacles[3].failures;
+                }
+                if (blockData.HasEnemy)
+                {
+                    totalSuccess += playerStats.obstacles[4].successes;
+                    totalFail += playerStats.obstacles[4].failures;
+                }
+
+                if (totalSuccess != 0)
+                {
+                    //blockData.m_Probability = (stat.successes - (stat.failures * (0.4f - terrain.difficultyFactor)) ) / stat.successes;
+                    blockData.m_Probability = Mathf.Abs((totalSuccess - (totalFail * (0.5f - terrain.difficultyFactor))) / totalSuccess);
+                }
+                else
+                {
+                    blockData.m_Probability = 1f;
+                }
+                Debug.Log("block: " + blockData.name + " has probability: " + blockData.m_Probability);
+                break;
+            }
+
         }
+        
 
         private void UpdateDifficulty()
         {
@@ -180,7 +204,7 @@ namespace RedRunner.TerrainGeneration
             float timeFactor = (avgBlockTime - 1.25f) / 4;
 
             difficultyFactor = 0.75f * distanceFactor + (speedFactor - timeFactor) * 0.25f;
-
+            //difficultyFactor = distanceFactor;
             if (difficultyFactor > 1f)
             {
                 difficultyFactor = 1f;
@@ -214,14 +238,13 @@ namespace RedRunner.TerrainGeneration
                 avgSpeed = total / speedSamples.Count;
 
                 //avgSpeed = (player.transform.position.x - player.StartingPos) / (Time.time - startTime);
-                Debug.Log("average speed " + avgSpeed);
+                //Debug.Log("average speed " + avgSpeed);
                 yield return new WaitForSeconds(1f);
             }
         }
 
         private void PlayerDied()
         {
-
             playerStats.scores.Add( Mathf.FloorToInt(player.transform.position.x - player.StartingPos) );
             if (playerStats.scores.Count >= 100)
             {
@@ -243,16 +266,20 @@ namespace RedRunner.TerrainGeneration
             string blockName = "";
 
             if (currentBlock)
-                blockName = closestBlock.name.Replace("(Clone)", "");
-
-            for (int i = 0; i < playerStats.obstacles.Length; i++)
             {
-                if (playerStats.obstacles[i].name == blockName)
-                {
-                    playerStats.obstacles[i].failures += 1;
-                    Debug.Log("Died on " + blockName);
-                    SaveStats();
-                }
+                blockName = closestBlock.name.Replace("(Clone)", "");
+                Debug.Log("died on "+ blockName + closestBlock.FarJump.ToString() + closestBlock.HighJump.ToString() + closestBlock.Below.ToString() + closestBlock.Narrow.ToString() + closestBlock.HasEnemy.ToString());
+
+                if (closestBlock.FarJump)
+                    playerStats.obstacles[0].failures += 1;
+                if (closestBlock.HighJump && !closestBlock.Below)
+                    playerStats.obstacles[1].failures += 1;
+                if (closestBlock.Below)
+                    playerStats.obstacles[2].failures += 1;
+                if (closestBlock.Narrow)
+                    playerStats.obstacles[3].failures += 1;
+                if (closestBlock.HasEnemy)
+                    playerStats.obstacles[4].failures += 1;
             }
         }
 
