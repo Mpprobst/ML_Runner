@@ -88,6 +88,7 @@ namespace RedRunner.Utilities
 					Character character = colliders [i].GetComponent<Character> ();
 					if (character != null) {
 						m_Stopped = false;
+                        Debug.Log("character found");
 					}
 				}
 			} else {

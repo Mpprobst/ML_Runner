@@ -62,6 +62,11 @@ namespace RedRunner.Characters
         {
             base.Update();
 
+            if (Speed.x < 0.1f && GroundCheck.IsGrounded)
+            {
+                Jump();
+            }
+
             if (currBlock == nextBlock)
             {
                 nextBlock = null;

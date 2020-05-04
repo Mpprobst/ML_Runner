@@ -20,7 +20,7 @@ public class BlockFinder : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Block block = collision.transform.parent.transform.parent.GetComponent<Block>();
+        Block block = collision.GetComponentInParent<Block>();
         if (block)
         {
             if (!blocks.Contains(block))
@@ -30,7 +30,7 @@ public class BlockFinder : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Block block = collision.transform.parent.transform.parent.GetComponent<Block>();
+        Block block = collision.GetComponentInParent<Block>();
         if (block)
             blocks.Remove(block);
     }
