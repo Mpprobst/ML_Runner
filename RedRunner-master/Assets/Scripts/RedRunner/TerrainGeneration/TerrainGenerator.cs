@@ -39,7 +39,7 @@ namespace RedRunner.TerrainGeneration
         protected float m_BackgroundGenerateRange = 200f;
         [SerializeField]
         protected Character m_Character;
-        protected Block m_LastBlock;
+        public Block m_LastBlock;
         protected BackgroundBlock m_LastBackgroundBlock;
         protected float m_RemoveTime = 0f;
         protected bool m_Reset = false;

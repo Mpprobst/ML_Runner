@@ -281,6 +281,12 @@ namespace RedRunner.TerrainGeneration
                 if (closestBlock.HasEnemy)
                     playerStats.obstacles[4].failures += 1;
             }
+
+            for (int i = 0; i < 50; i++)
+            {
+                SimulateRuns();
+            }
+
         }
 
         private void SaveStats()
@@ -296,6 +302,73 @@ namespace RedRunner.TerrainGeneration
         private void OnApplicationQuit()
         {
             SaveStats();
+        }
+
+        private void SimulateRuns()
+        {
+            float p_far = (float)playerStats.obstacles[0].successes / (playerStats.obstacles[0].failures + playerStats.obstacles[0].successes);
+            float p_high = (float)playerStats.obstacles[1].successes / (playerStats.obstacles[1].failures + playerStats.obstacles[1].successes);
+            float p_below = (float)playerStats.obstacles[2].successes / (playerStats.obstacles[2].failures + playerStats.obstacles[2].successes);
+            float p_narrow = (float)playerStats.obstacles[3].successes / (playerStats.obstacles[3].failures + playerStats.obstacles[3].successes);
+            float p_enemy = (float)playerStats.obstacles[4].successes / (playerStats.obstacles[4].failures + playerStats.obstacles[4].successes);
+
+            bool success = true;
+            float totalProb = 0;
+
+            Block nextBlock = TerrainGenerator.ChooseFrom(terrain.m_Settings.MiddleBlocks);
+            terrain.CreateBlock(nextBlock, new Vector3(0, 0, 0));
+            nextBlock = terrain.m_LastBlock;
+
+            if (nextBlock.FarJump) totalProb += p_far;
+            else totalProb += 1;
+
+            if (nextBlock.HighJump) totalProb += p_high;
+            else totalProb += 1;
+
+            if (nextBlock.Below) totalProb += p_below;
+            else totalProb += 1;
+
+            if (nextBlock.Narrow) totalProb += p_narrow;
+            else totalProb += 1;
+
+            if (nextBlock.HasEnemy) totalProb += p_enemy;
+            else totalProb += 1;
+
+            totalProb = totalProb / 5;
+            float random = Random.Range(0f, 1f);
+            if (random > totalProb)
+            {
+                success = false;
+            }
+
+            if (nextBlock.FarJump)
+            {
+                if (success) playerStats.obstacles[0].successes++;
+                else playerStats.obstacles[0].failures++;
+            }
+            if (nextBlock.HighJump)
+            {
+                if (success) playerStats.obstacles[1].successes++;
+                else playerStats.obstacles[1].failures++;
+            }
+            if (nextBlock.Below)
+            {
+                if (success) playerStats.obstacles[2].successes++;
+                else playerStats.obstacles[2].failures++;
+            }
+            if (nextBlock.Narrow)
+            {
+                if (success) playerStats.obstacles[3].successes++;
+                else playerStats.obstacles[3].failures++;
+            }
+            if (nextBlock.HasEnemy)
+            {
+                if (success) playerStats.obstacles[4].successes++;
+                else playerStats.obstacles[4].failures++;
+            }
+
+            //Destroy(nextBlock.gameObject);
+
         }
 
     }
