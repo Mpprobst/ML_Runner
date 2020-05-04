@@ -20,11 +20,11 @@ int main()
 	int numTests = 5000;
 
 	Agent agent;
-	agent.SetFarProb(0);
-	agent.SetHighProb(1);
-	agent.SetBelowProb(1);
-	agent.SetNarrowProb(1);
-	agent.SetEnemyProb(1);
+	agent.SetFarProb(.5);
+	agent.SetHighProb(.5);
+	agent.SetBelowProb(.5);
+	agent.SetNarrowProb(.5);
+	agent.SetEnemyProb(.5);
 
 	resultsFile << "Agent Skill\n";
 	resultsFile << agent.GetFarProb() << "," << agent.GetHighProb() << "," << agent.GetBelowProb() << "," << agent.GetNarrowProb() << "," << agent.GetEnemyProb() << "\n";

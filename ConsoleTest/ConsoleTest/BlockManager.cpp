@@ -30,6 +30,7 @@ float BlockManager::GetDifficulty()
 float BlockManager::GetProbability(BlockData data)
 {
 	float prob = 1;
+	
 	std::cout << "s=" << data.successes << "f=" << data.failures << " ";
 	//prob = (float)(data.successes - (data.failures / difficulty)) / data.successes;
 	// should fail around 45 blocks
@@ -39,11 +40,12 @@ float BlockManager::GetProbability(BlockData data)
 	}
 	else
 	{
-		prob = (float)data.failures / ((float)data.successes + (float)data.failures);
+		prob = (float)data.failures  / ((float)data.successes + (float)data.failures);
 	}
 	//prob = (float)(data.successes - (data.failures * (0.6 - difficulty))) / data.successes;
 	if (prob < 0) prob = 0;
 	std::cout << prob << "\n ";
+	
 	return prob;
 }
 float BlockManager::GetRandomFloat(float a, float b)
